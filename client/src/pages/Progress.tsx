@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/auth";
 import { api } from "../api";
 
 interface ProgressItem {
@@ -20,6 +22,8 @@ interface Stats {
 }
 
 export default function Progress() {
+  const { user } = useAuth();
+  if (!user) return <Navigate to="/auth" replace />;
   const [progress, setProgress] = useState<ProgressItem[]>([]);
   const [stats, setStats] = useState<Stats>({
     vocabWordsLearned: 0,
@@ -61,12 +65,6 @@ export default function Progress() {
       avgScore: allExercise.length ? Math.round(totalScore / allExercise.length) : 0,
       totalExercises: allExercise.length,
     });
-  };
-
-  const getRecentItems = () => {
-    return progress
-      .sort((a, b) => new Date(b.last_studied).getTime() - new Date(a.last_studied).getTime())
-      .slice(0, 10);
   };
 
   if (loading) return <div className="loading">Đang tải...</div>;
@@ -134,38 +132,6 @@ export default function Progress() {
             </div>
           </div>
         </div>
-      </section>
-
-      <section className="progress-section">
-        <h2>Hoạt động gần đây</h2>
-        {getRecentItems().length === 0 ? (
-          <p className="empty">Chưa có hoạt động học tập nào.</p>
-        ) : (
-          <div className="activity-list">
-            {getRecentItems().map((item) => (
-              <div key={item.id} className="activity-item">
-                <div className="activity-icon">
-                  {item.lesson_type === "vocabulary" ? "📚" : item.lesson_type === "grammar" ? "📖" : "✍️"}
-                </div>
-                <div className="activity-info">
-                  <p>
-                    <strong>
-                      {item.lesson_type === "vocabulary"
-                        ? "Học từ vựng"
-                        : item.lesson_type === "grammar"
-                          ? "Học ngữ pháp"
-                          : "Làm bài tập"}
-                    </strong>
-                    {item.completed ? " - ✅ Hoàn thành" : " - 🔄 Đang học"}
-                  </p>
-                  <p className="activity-score">
-                    Điểm: {item.score}% | {new Date(item.last_studied).toLocaleDateString("vi-VN")}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
       </section>
 
       {progress.length === 0 && (
