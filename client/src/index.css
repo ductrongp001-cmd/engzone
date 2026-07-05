@@ -1234,3 +1234,190 @@ body.dark {
 .dark .admin-table tr:hover td { background: #1e293b; }
 .dark .admin-form input, .dark .admin-form select, .dark .admin-form textarea { background: var(--bg-card); color: var(--text); border-color: var(--border); }
 .dark .admin-btn-sm { background: var(--bg-card-hover); color: var(--text-secondary); }
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 0.8rem 1rem;
+  }
+  .nav-links {
+    flex-wrap: wrap;
+    gap: 0.4rem 0.6rem;
+    justify-content: center;
+  }
+  .nav-link {
+    font-size: 0.82rem;
+  }
+  .nav-brand {
+    font-size: 1.2rem;
+  }
+  .container {
+    padding: 1rem;
+  }
+  .page h1 {
+    font-size: 1.4rem;
+  }
+  .hero-section {
+    padding: 2rem 0;
+  }
+  .hero-section h1 {
+    font-size: 1.6rem;
+  }
+  .hero-sub {
+    font-size: 1rem;
+  }
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  .topics-grid {
+    grid-template-columns: 1fr;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .admin-layout {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .admin-sidebar {
+    width: 100%;
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0.8rem;
+  }
+  .admin-sidebar h2 {
+    width: 100%;
+    margin-bottom: 0.4rem;
+    padding-bottom: 0.4rem;
+    font-size: 1rem;
+  }
+  .admin-sidebar-link {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
+    margin-bottom: 0;
+  }
+  .admin-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .admin-table {
+    font-size: 0.8rem;
+  }
+  .admin-table th,
+  .admin-table td {
+    padding: 0.5rem 0.6rem;
+  }
+  .admin-form input,
+  .admin-form select,
+  .admin-form textarea {
+    min-width: 100px;
+    font-size: 0.85rem;
+  }
+  .admin-content h1 {
+    font-size: 1.2rem;
+  }
+  .auth-form {
+    max-width: 100%;
+  }
+  .difficulty-tabs {
+    flex-wrap: wrap;
+  }
+  .diff-tab {
+    font-size: 0.82rem;
+    padding: 0.4rem 0.8rem;
+  }
+  .word-header {
+    flex-wrap: wrap;
+  }
+  .word-text {
+    font-size: 1rem;
+  }
+  .level-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+  .level-name {
+    min-width: auto;
+    font-size: 0.85rem;
+  }
+  .dict-search-box {
+    flex-direction: column;
+  }
+  .dict-btn {
+    width: 100%;
+  }
+  .quiz-score-circle {
+    width: 90px;
+    height: 90px;
+    font-size: 1.6rem;
+  }
+  .quiz-review-item {
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+  }
+  .nav-user {
+    gap: 0.3rem;
+  }
+  .nav-user .nav-link {
+    font-size: 0.82rem;
+  }
+  .nav-btn {
+    font-size: 0.78rem;
+    padding: 0.2rem 0.5rem;
+  }
+  .lesson-content {
+    font-size: 0.9rem;
+    padding: 0.8rem;
+  }
+  .lesson-nav-between {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .nav-lesson-btn {
+    max-width: 100%;
+    width: 100%;
+    text-align: center;
+    font-size: 0.82rem;
+  }
+  .lesson-counter {
+    font-size: 0.78rem;
+  }
+  .lesson-nav-top {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .admin-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+  .admin-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .hero-section h1 {
+    font-size: 1.3rem;
+  }
+  .container {
+    padding: 0.8rem;
+  }
+  .features-section h2,
+  .levels-section h2 {
+    font-size: 1.3rem;
+  }
+  .nav-links {
+    gap: 0.3rem;
+  }
+  .nav-link {
+    font-size: 0.75rem;
+  }
+}
