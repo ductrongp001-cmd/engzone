@@ -13,8 +13,8 @@ export default function Exercises() {
   const { user } = useAuth();
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [difficulty, setDifficulty] = useState("beginner");
-  const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
-  const [results, setResults] = useState<Record<number, boolean>>({});
+  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [results, setResults] = useState<Record<number, boolean | null>>({});
   const [showAnswers, setShowAnswers] = useState(false);
   const [loading, setLoading] = useState(true);
 
