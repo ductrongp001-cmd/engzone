@@ -83,10 +83,26 @@ app.get("*", (_req, res) => {
   res.sendFile(path.join(clientDist, "index.html"));
 });
 
+async function migratePasswords() {
+  const db = await getDb();
+  const result = db.exec("SELECT id, password FROM users WHERE password NOT LIKE '$2%'");
+  if (result.length && result[0].values.length) {
+    const bcrypt = await import("bcryptjs");
+    for (const row of result[0].values) {
+      const id = row[0] as number;
+      const plain = row[1] as string;
+      const hashed = await bcrypt.hash(plain, 10);
+      db.run("UPDATE users SET password = ? WHERE id = ?", [hashed, id]);
+    }
+    saveDb();
+    console.log(`Migrated ${result[0].values.length} plain text passwords to bcrypt`);
+  }
+}
+
 async function start() {
   await initSchema();
-  // Auto-seed if database is empty
   const db = await getDb();
+  await migratePasswords();
   const users = db.exec("SELECT COUNT(*) as c FROM users");
   if (!users[0]?.values[0]?.[0]) {
     const { runSeed } = await import("./seed");
