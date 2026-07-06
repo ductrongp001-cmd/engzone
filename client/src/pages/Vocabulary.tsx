@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "../context/auth";
 import { api } from "../api";
 import type { Topic, Word } from "../types";
 
@@ -19,6 +20,7 @@ interface SearchWord extends Word {
 }
 
 export default function Vocabulary() {
+  const { user } = useAuth();
   const [topics, setTopics] = useState<Topic[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
   const [words, setWords] = useState<Word[]>([]);
@@ -57,7 +59,7 @@ export default function Vocabulary() {
     setWords(data);
     try {
       await api.post("/progress/save", {
-        user_id: 1,
+        user_id: user?.id ?? 1,
         lesson_type: "vocabulary",
         lesson_id: topic.id,
         completed: 1,

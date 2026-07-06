@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "../context/auth";
 import { api } from "../api";
 import type { Exercise } from "../types";
 
@@ -9,12 +10,13 @@ const difficulties = [
 ];
 
 export default function Exercises() {
+  const { user } = useAuth();
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [difficulty, setDifficulty] = useState("beginner");
-  const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [results, setResults] = useState<Record<number, boolean | null>>({});
-  const [loading, setLoading] = useState(true);
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
+  const [results, setResults] = useState<Record<number, boolean>>({});
   const [showAnswers, setShowAnswers] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -55,7 +57,7 @@ export default function Exercises() {
     const pct = Math.round((correctCount / exercises.length) * 100);
     try {
       await api.post("/progress/save", {
-        user_id: 1,
+        user_id: user?.id ?? 1,
         lesson_type: "exercise",
         lesson_id: difficulties.findIndex((d) => d.value === difficulty) + 1,
         completed: 1,

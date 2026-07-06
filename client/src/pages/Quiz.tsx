@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useAuth } from "../context/auth";
 import { api } from "../api";
 import type { Exercise } from "../types";
 
@@ -9,6 +10,7 @@ const difficulties = [
 ];
 
 export default function Quiz() {
+  const { user } = useAuth();
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [difficulty, setDifficulty] = useState("beginner");
   const [current, setCurrent] = useState(0);
@@ -58,7 +60,7 @@ export default function Quiz() {
       const pct = Math.round(((score + (isCorrect ? 1 : 0)) / exercises.length) * 100);
       try {
         api.post("/progress/save", {
-          user_id: 1, lesson_type: "exercise", lesson_id: 0, completed: 1, score: pct,
+          user_id: user?.id ?? 1, lesson_type: "exercise", lesson_id: 0, completed: 1, score: pct,
         });
       } catch {}
     } else {

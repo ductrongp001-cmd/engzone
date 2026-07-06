@@ -41,7 +41,7 @@ export default function Progress() {
   const loadProgress = async () => {
     setLoading(true);
     try {
-      const data = await api.get<ProgressItem[]>("/progress/1");
+      const data = await api.get<ProgressItem[]>(`/progress/${user.id}`);
       setProgress(data);
       calculateStats(data);
     } catch {

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "../context/auth";
 import { api } from "../api";
 import type { GrammarLesson } from "../types";
 
@@ -9,6 +10,7 @@ const levelColors: Record<string, string> = {
 };
 
 export default function Grammar() {
+  const { user } = useAuth();
   const [lessons, setLessons] = useState<GrammarLesson[]>([]);
   const [selected, setSelected] = useState<GrammarLesson | null>(null);
   const [loading, setLoading] = useState(true);
@@ -25,7 +27,7 @@ export default function Grammar() {
     setSelected(data);
     try {
       await api.post("/progress/save", {
-        user_id: 1,
+        user_id: user?.id ?? 1,
         lesson_type: "grammar",
         lesson_id: lesson.id,
         completed: 1,
