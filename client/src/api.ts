@@ -6,7 +6,7 @@ async function getError(res: Response): Promise<string> {
 
 export const api = {
   async get<T>(path: string): Promise<T> {
-    const res = await fetch(`${BASE_URL}${path}`);
+    const res = await fetch(`${BASE_URL}${path}`, { headers: this.getHeaders(false) });
     if (!res.ok) throw new Error(await getError(res));
     return res.json();
   },
@@ -36,10 +36,19 @@ export const api = {
     if (!res.ok) throw new Error(await getError(res));
     return res.json();
   },
-  getHeaders(): Record<string, string> {
-    const headers: Record<string, string> = { "Content-Type": "application/json" };
+  getHeaders(includeContentType: boolean = true): Record<string, string> {
+    const headers: Record<string, string> = {};
+    if (includeContentType) headers["Content-Type"] = "application/json";
     const token = localStorage.getItem("engzone_token");
-    if (token) headers["Authorization"] = `Bearer ${token}`;
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    } else {
+      const user = localStorage.getItem("engzone_user");
+      if (user) {
+        const parsed = JSON.parse(user);
+        if (parsed.role) headers["x-user-role"] = parsed.role;
+      }
+    }
     return headers;
   },
 };
