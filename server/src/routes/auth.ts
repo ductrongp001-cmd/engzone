@@ -1,10 +1,24 @@
-import { Router, Request, Response } from "express";
+import { Router, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { getDb, saveDb } from "../database";
+import { authenticate, AuthRequest } from "../middleware";
 
 const JWT_SECRET = process.env.JWT_SECRET || "engzone_secret_key_change_in_prod";
 const router = Router();
+
+router.get("/verify", authenticate, async (req: AuthRequest, res: Response) => {
+  const db = await getDb();
+  const result = db.exec("SELECT id, name, email, role, level FROM users WHERE id = ?", [req.user!.id]);
+  if (!result.length || !result[0].values.length) {
+    return res.status(401).json({ error: "User not found" });
+  }
+  const cols = result[0].columns;
+  const row = result[0].values[0];
+  const user: Record<string, any> = {};
+  cols.forEach((col: string, i: number) => { user[col] = row[i]; });
+  res.json({ success: true, user });
+});
 
 router.post("/register", async (req: Request, res: Response) => {
   const { name, email, password } = req.body;

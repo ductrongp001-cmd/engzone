@@ -25,6 +25,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
+    const token = localStorage.getItem("engzone_token");
+    if (!token) return;
+    api.get<{ success: boolean; user: User }>("/auth/verify").then((res) => {
+      if (res.success) {
+        setUser(res.user);
+        localStorage.setItem("engzone_user", JSON.stringify(res.user));
+      }
+    }).catch(() => {
+      localStorage.removeItem("engzone_token");
+      localStorage.removeItem("engzone_user");
+      setUser(null);
+    });
+  }, []);
+
+  useEffect(() => {
     if (user) localStorage.setItem("engzone_user", JSON.stringify(user));
     else localStorage.removeItem("engzone_user");
   }, [user]);
