@@ -1,21 +1,16 @@
-import { Router, Request, Response } from "express";
+import { Router, Response } from "express";
 import { getDb, saveDb } from "../database";
+import { adminOnly, AuthRequest } from "../middleware";
 
 const router = Router();
 
-function parseRows(result: any) {
+function parseRows(result: { columns: string[]; values: any[][] }) {
   if (!result || !result.columns) return [];
   return result.values.map((row: any[]) => {
     const obj: any = {};
     result.columns.forEach((col: string, i: number) => { obj[col] = row[i]; });
     return obj;
   });
-}
-
-function adminOnly(req: Request, res: Response, next: Function) {
-  const role = req.headers["x-user-role"];
-  if (role !== "admin") return res.status(403).json({ error: "Forbidden" });
-  next();
 }
 
 router.use(adminOnly);

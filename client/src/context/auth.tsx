@@ -30,8 +30,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [user]);
 
   const login = async (email: string, password: string) => {
-    const res = await api.post<{ success: boolean; user: User }>("/auth/login", { email, password });
+    const res = await api.post<{ success: boolean; token: string; user: User }>("/auth/login", { email, password });
     if (!res.success) throw new Error("Sai email hoặc mật khẩu");
+    localStorage.setItem("engzone_token", res.token);
     setUser(res.user);
   };
 
@@ -39,7 +40,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await api.post("/auth/register", { name, email, password });
   };
 
-  const logout = () => setUser(null);
+  const logout = () => {
+    localStorage.removeItem("engzone_token");
+    setUser(null);
+  };
 
   return (
     <AuthContext.Provider value={{ user, login, register, logout }}>

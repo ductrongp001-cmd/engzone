@@ -1,6 +1,9 @@
 import { Router, Request, Response } from "express";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { getDb, saveDb } from "../database";
 
+const JWT_SECRET = process.env.JWT_SECRET || "engzone_secret_key_change_in_prod";
 const router = Router();
 
 router.post("/register", async (req: Request, res: Response) => {
@@ -10,10 +13,11 @@ router.post("/register", async (req: Request, res: Response) => {
   }
   const db = await getDb();
   try {
-    db.run("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", [name, email, password]);
+    const hashed = await bcrypt.hash(password, 10);
+    db.run("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", [name, email, hashed]);
     saveDb();
     res.json({ success: true, message: "User created" });
-  } catch (err: any) {
+  } catch {
     res.status(400).json({ error: "Email already exists" });
   }
 });
@@ -21,15 +25,28 @@ router.post("/register", async (req: Request, res: Response) => {
 router.post("/login", async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const db = await getDb();
-  const user = db.exec("SELECT * FROM users WHERE email = ? AND password = ?", [email, password]);
-  if (user.length === 0 || user[0].values.length === 0) {
+  const result = db.exec("SELECT * FROM users WHERE email = ?", [email]);
+  if (!result.length || !result[0].values.length) {
     return res.status(401).json({ error: "Invalid credentials" });
   }
-  const row = user[0].values[0];
-  const cols = user[0].columns;
-  const userData: any = {};
+  const cols = result[0].columns;
+  const row = result[0].values[0];
+  const userData: Record<string, any> = {};
   cols.forEach((col: string, i: number) => { userData[col] = row[i]; });
-  res.json({ success: true, user: { id: userData.id, name: userData.name, email: userData.email, role: userData.role, level: userData.level } });
+  const valid = await bcrypt.compare(password, userData.password);
+  if (!valid) {
+    return res.status(401).json({ error: "Invalid credentials" });
+  }
+  const token = jwt.sign(
+    { id: userData.id, email: userData.email, role: userData.role },
+    JWT_SECRET,
+    { expiresIn: "7d" }
+  );
+  res.json({
+    success: true,
+    token,
+    user: { id: userData.id, name: userData.name, email: userData.email, role: userData.role, level: userData.level }
+  });
 });
 
 router.get("/users", async (_req: Request, res: Response) => {

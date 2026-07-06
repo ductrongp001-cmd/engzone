@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { api } from "../../api";
+import type { AdminGrammarLesson } from "../../types";
 
 export default function GrammarPage() {
-  const [lessons, setLessons] = useState<any[]>([]);
+  const [lessons, setLessons] = useState<AdminGrammarLesson[]>([]);
   const [form, setForm] = useState({ title: "", content: "", level: "beginner", order_index: 0 });
   const [editing, setEditing] = useState<number | null>(null);
 
-  const fetch = () => api.get<any[]>("/admin/grammar").then(setLessons).catch(() => {});
+  const fetch = () => api.get<AdminGrammarLesson[]>("/admin/grammar").then(setLessons).catch(() => {});
   useEffect(() => { fetch(); }, []);
 
   const save = async () => {

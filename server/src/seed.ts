@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import { getDb, saveDb } from "./database";
 import { initSchema } from "./schema";
 
@@ -8,19 +9,21 @@ export async function runSeed() {
 async function seed() {
   await initSchema();
   const db = await getDb();
+  const hash = await bcrypt.hash("admin123", 10);
+  const hashUser = await bcrypt.hash("user123", 10);
 
   // Seed admin user
   const existing = db.exec("SELECT id FROM users WHERE email = ?", ["admin@engzone.com"]);
   if (!existing.length || !existing[0].values.length) {
     db.run("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)",
-      ["Admin", "admin@engzone.com", "admin123", "admin"]);
+      ["Admin", "admin@engzone.com", hash, "admin"]);
   }
 
   // Seed regular user
   const existingUser = db.exec("SELECT id FROM users WHERE email = ?", ["user@engzone.com"]);
   if (!existingUser.length || !existingUser[0].values.length) {
     db.run("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)",
-      ["Nguyen Van A", "user@engzone.com", "user123", "user"]);
+      ["Nguyen Van A", "user@engzone.com", hashUser, "user"]);
   }
 
   // Clear existing data

@@ -38,11 +38,8 @@ export const api = {
   },
   getHeaders(): Record<string, string> {
     const headers: Record<string, string> = { "Content-Type": "application/json" };
-    const stored = localStorage.getItem("engzone_user");
-    if (stored) {
-      const user = JSON.parse(stored);
-      if (user.role) headers["x-user-role"] = user.role;
-    }
+    const token = localStorage.getItem("engzone_token");
+    if (token) headers["Authorization"] = `Bearer ${token}`;
     return headers;
   },
 };

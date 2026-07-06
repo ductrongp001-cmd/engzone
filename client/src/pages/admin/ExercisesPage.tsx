@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { api } from "../../api";
+import type { AdminExercise } from "../../types";
 
 export default function ExercisesPage() {
-  const [exercises, setExercises] = useState<any[]>([]);
+  const [exercises, setExercises] = useState<AdminExercise[]>([]);
   const [form, setForm] = useState({ type: "multiple_choice", question: "", options: [""], correct_answer: "", explanation: "", difficulty: "beginner" });
   const [editing, setEditing] = useState<number | null>(null);
 
-  const fetch = () => api.get<any[]>("/admin/exercises").then(setExercises).catch(() => {});
+  const fetch = () => api.get<AdminExercise[]>("/admin/exercises").then(setExercises).catch(() => {});
   useEffect(() => { fetch(); }, []);
 
   const save = async () => {
@@ -78,7 +79,7 @@ export default function ExercisesPage() {
           {exercises.map((ex) => (
             <tr key={ex.id}>
               <td>{ex.id}</td>
-              <td>{ex.type === "multiple_choice" ? "Trắc nghiệm" : "Điền từ"}</td>
+              <td>{ex.lesson_type === "multiple_choice" ? "Trắc nghiệm" : "Điền từ"}</td>
               <td>{ex.question.substring(0, 60)}...</td>
               <td>{ex.difficulty}</td>
               <td>

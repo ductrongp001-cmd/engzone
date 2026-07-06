@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { api } from "../../api";
+import type { AdminUser } from "../../types";
 
 export default function UsersPage() {
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<AdminUser[]>([]);
 
   const fetchUsers = () => {
-    api.get<any[]>("/admin/users").then(setUsers).catch(() => {});
+    api.get<AdminUser[]>("/admin/users").then(setUsers).catch(() => {});
   };
 
   useEffect(() => { fetchUsers(); }, []);

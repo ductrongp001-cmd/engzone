@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { api } from "../../api";
+import type { AdminTopic } from "../../types";
 
 export default function TopicsPage() {
-  const [topics, setTopics] = useState<any[]>([]);
+  const [topics, setTopics] = useState<AdminTopic[]>([]);
   const [form, setForm] = useState({ name: "", description: "", level: "beginner", icon: "📁", order_index: 0 });
   const [editing, setEditing] = useState<number | null>(null);
 
-  const fetch = () => api.get<any[]>("/admin/topics").then(setTopics).catch(() => {});
+  const fetch = () => api.get<AdminTopic[]>("/admin/topics").then(setTopics).catch(() => {});
   useEffect(() => { fetch(); }, []);
 
   const save = async () => {

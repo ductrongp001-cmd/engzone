@@ -45,3 +45,32 @@ export interface Exercise {
   explanation: string;
   difficulty: string;
 }
+
+export interface AdminTopic extends Topic {
+  id: number;
+}
+
+export interface AdminGrammarLesson extends GrammarLesson {
+  id: number;
+}
+
+export interface AdminExercise extends Exercise {
+  id: number;
+}
+
+export interface AdminUser {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  level: string;
+  created_at: string;
+}
+
+export interface AdminStats {
+  topics: number;
+  words: number;
+  grammar: number;
+  exercises: number;
+  users: number;
+}
