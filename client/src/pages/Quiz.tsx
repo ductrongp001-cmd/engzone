@@ -134,9 +134,7 @@ export default function Quiz() {
           <div className="quiz-options">
             {ex.options.map((opt, i) => (
               <button key={i} className={`quiz-option ${selected === opt ? "selected" : ""}`}
-                onClick={() => setSelected(opt)}
-                disabled={!!selected}
-              >{opt}</button>
+                onClick={() => setSelected(opt)}>{opt}</button>
             ))}
           </div>
         )}
