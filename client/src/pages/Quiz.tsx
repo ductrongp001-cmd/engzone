@@ -3,6 +3,8 @@ import { useAuth } from "../context/auth";
 import { api } from "../api";
 import type { Exercise } from "../types";
 
+function shuffle<T>(a: T[]) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
 const difficulties = [
   { value: "beginner", label: "Cơ bản", color: "#4f46e5" },
   { value: "intermediate", label: "Trung cấp", color: "#0891b2" },
@@ -24,7 +26,7 @@ export default function Quiz() {
   const loadExercises = async (diff: string) => {
     setLoading(true);
     const data = await api.get<Exercise[]>(`/exercises?difficulty=${diff}`);
-    const shuffled = data.sort(() => Math.random() - 0.5).slice(0, 10);
+    const shuffled = data.sort(() => Math.random() - 0.5).slice(0, 10).map(ex => ({ ...ex, options: ex.options ? shuffle([...ex.options]) : ex.options }));
     setExercises(shuffled);
     setCurrent(0);
     setScore(0);

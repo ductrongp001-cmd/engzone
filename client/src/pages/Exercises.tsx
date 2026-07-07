@@ -3,6 +3,8 @@ import { useAuth } from "../context/auth";
 import { api } from "../api";
 import type { Exercise } from "../types";
 
+function shuffle<T>(a: T[]) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
 const difficulties = [
   { value: "beginner", label: "Cơ bản", color: "#4f46e5" },
   { value: "intermediate", label: "Trung cấp", color: "#0891b2" },
@@ -21,7 +23,7 @@ export default function Exercises() {
   useEffect(() => {
     setLoading(true);
     api.get<Exercise[]>(`/exercises?difficulty=${difficulty}`).then((data) => {
-      setExercises(data);
+      setExercises(data.map(ex => ({ ...ex, options: ex.options ? shuffle([...ex.options]) : ex.options })));
       setAnswers({});
       setResults({});
       setShowAnswers(false);
