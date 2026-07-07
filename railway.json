@@ -1,9 +1,6 @@
 {
   "build": {
-    "builder": "nixpacks",
-    "watchPatterns": ["server/**"]
+    "builder": "nixpacks"
   },
-  "deploy": {
-    "path": "server"
-  }
+  "deploy": {}
 }
