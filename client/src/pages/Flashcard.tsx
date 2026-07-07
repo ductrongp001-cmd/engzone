@@ -119,7 +119,7 @@ export default function Flashcard() {
   return (
     <div className="page flashcard-page">
       <h1>Thẻ ghi nhớ</h1>
-      <p className="flashcard-desc">Chọn chủ đề để ôn tập</p>
+      <p className="flashcard-desc">Chọn chủ đề để ôn tập (bỏ trống để học tất cả)</p>
       <div className="flashcard-topics">
         {topics.map((topic) => (
           <button
@@ -134,7 +134,7 @@ export default function Flashcard() {
       <button
         className="flashcard-btn start"
         onClick={startStudy}
-        disabled={selectedTopicIds.length === 0 && topics.length > 0}
+        disabled={topics.length === 0}
       >
         Bắt đầu ôn tập
       </button>
