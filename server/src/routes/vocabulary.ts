@@ -29,6 +29,26 @@ router.get("/words/:id", async (req: Request, res: Response) => {
   res.json(parseRows(result[0])[0]);
 });
 
+router.get("/words", async (req: Request, res: Response) => {
+  const topicIds = (req.query.topicIds as string) || "";
+  const limit = parseInt(req.query.limit as string) || 0;
+  const db = await getDb();
+  let sql = "SELECT * FROM vocabulary_words";
+  const params: any[] = [];
+  if (topicIds) {
+    const ids = topicIds.split(",").map(Number).filter(Boolean);
+    if (ids.length > 0) {
+      sql += " WHERE topic_id IN (" + ids.map(() => "?").join(",") + ")";
+      params.push(...ids);
+    }
+  }
+  sql += " ORDER BY RANDOM()";
+  if (limit > 0) sql += " LIMIT ?";
+  if (limit > 0) params.push(limit);
+  const result = db.exec(sql, params);
+  res.json(parseRows(result[0]));
+});
+
 router.get("/search", async (req: Request, res: Response) => {
   const q = (req.query.q as string || "").toLowerCase();
   const db = await getDb();

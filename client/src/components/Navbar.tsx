@@ -9,6 +9,7 @@ const links = [
   { to: "/exercises", label: "Bài tập" },
   { to: "/progress", label: "Tiến độ" },
   { to: "/dictionary", label: "Từ điển" },
+  { to: "/flashcard", label: "Flashcard" },
   { to: "/quiz", label: "Thi thử" },
 ];
 

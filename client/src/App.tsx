@@ -11,6 +11,7 @@ import Progress from "./pages/Progress";
 import Dictionary from "./pages/Dictionary";
 import AuthPage from "./pages/AuthPage";
 import Quiz from "./pages/Quiz";
+import Flashcard from "./pages/Flashcard";
 import Dashboard from "./pages/admin/Dashboard";
 import UsersPage from "./pages/admin/UsersPage";
 import TopicsPage from "./pages/admin/TopicsPage";
@@ -32,6 +33,7 @@ export default function App() {
             <Route path="/dictionary" element={<Dictionary />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/quiz" element={<Quiz />} />
+            <Route path="/flashcard" element={<Flashcard />} />
             <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
               <Route index element={<Dashboard />} />
               <Route path="users" element={<UsersPage />} />

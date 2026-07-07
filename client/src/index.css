@@ -1095,6 +1095,210 @@ body {
   white-space: nowrap;
 }
 
+/* FLASHCARD */
+.flashcard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.flashcard-counter {
+  font-size: 1rem;
+  color: #64748b;
+  font-weight: 600;
+}
+.flashcard-progress-bar {
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+.flashcard-progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+.flashcard-card {
+  perspective: 1000px;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+}
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  min-height: 280px;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+}
+.flashcard-card.flipped .flashcard-inner {
+  transform: rotateY(180deg);
+}
+.flashcard-front, .flashcard-back {
+  position: absolute;
+  width: 100%;
+  min-height: 280px;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  border: 2px solid #e2e8f0;
+}
+.flashcard-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+}
+.flashcard-word {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #4f46e5;
+  margin-bottom: 0.5rem;
+}
+.flashcard-phonetic {
+  font-size: 1.1rem;
+  color: #64748b;
+  margin-bottom: 0.5rem;
+}
+.flashcard-pos {
+  font-size: 0.85rem;
+  background: #eef2ff;
+  color: #4f46e5;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+}
+.flashcard-meaning {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.flashcard-example {
+  font-size: 0.95rem;
+  color: #475569;
+  font-style: italic;
+  text-align: center;
+  max-width: 90%;
+}
+.flashcard-hint {
+  margin-top: 1.5rem;
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+.flashcard-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+.flashcard-btn {
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.flashcard-btn.yes {
+  background: #059669;
+  color: #fff;
+}
+.flashcard-btn.yes:hover {
+  background: #047857;
+}
+.flashcard-btn.no {
+  background: #dc2626;
+  color: #fff;
+}
+.flashcard-btn.no:hover {
+  background: #b91c1c;
+}
+.flashcard-btn.start {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #fff;
+  padding: 1rem 3rem;
+  font-size: 1.1rem;
+}
+.flashcard-btn.start:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.flashcard-desc {
+  color: #64748b;
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+}
+.flashcard-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-bottom: 2rem;
+}
+.flashcard-topic-btn {
+  padding: 0.6rem 1.2rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  background: #fff;
+  color: #1e293b;
+  font-family: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.flashcard-topic-btn:hover {
+  border-color: #a5b4fc;
+  background: #eef2ff;
+}
+.flashcard-topic-btn.selected {
+  border-color: #4f46e5;
+  background: #eef2ff;
+  color: #4f46e5;
+  font-weight: 600;
+}
+.flashcard-done {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+.flashcard-done h2 {
+  font-size: 1.8rem;
+  color: #059669;
+  margin-bottom: 1rem;
+}
+.flashcard-done p {
+  font-size: 1.1rem;
+  color: #475569;
+  margin-bottom: 0.5rem;
+}
+.flashcard-done .flashcard-progress-bar {
+  max-width: 300px;
+  margin: 1.5rem auto;
+}
+.dark .flashcard-front {
+  background: #1e293b;
+  border-color: #334155;
+}
+.dark .flashcard-back {
+  background: linear-gradient(135deg, #1e1b4b, #1e293b);
+}
+.dark .flashcard-word { color: #a5b4fc; }
+.dark .flashcard-phonetic { color: #94a3b8; }
+.dark .flashcard-pos { background: #312e81; color: #c7d2fe; }
+.dark .flashcard-meaning { color: #e2e8f0; }
+.dark .flashcard-example { color: #94a3b8; }
+.dark .flashcard-hint { color: #64748b; }
+.dark .flashcard-topic-btn { background: #1e293b; border-color: #334155; color: #e2e8f0; }
+.dark .flashcard-topic-btn:hover { border-color: #6366f1; background: #1e1b4b; }
+.dark .flashcard-topic-btn.selected { border-color: #818cf8; background: #1e1b4b; color: #a5b4fc; }
+.dark .flashcard-done p { color: #94a3b8; }
+
 /* NAV */
 .nav-user {
   display: flex;
