@@ -42,9 +42,18 @@ jobs:
 
       - name: Build APK
         working-directory: client/android
+        id: build
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug
+          set -o pipefail
+          ./gradlew assembleDebug 2>&1 | tee build-output.log
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: engzone-build-log
+          path: client/android/build-output.log
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
