@@ -47,24 +47,7 @@ jobs:
         working-directory: client/android
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug > build-output.log 2>&1 || true
-
-      - name: Check build result
-        working-directory: client/android
-        run: |
-          tail -20 build-output.log
-          if [ -f build-output.log ]; then
-            echo "Build exit code was checked"
-          fi
-          echo "Checking for APK..."
-          ls -la app/build/outputs/apk/debug/ 2>/dev/null || echo "No APK found"
-
-      - name: Upload build log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: engzone-build-log
-          path: client/android/build-output.log
+          ./gradlew assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
