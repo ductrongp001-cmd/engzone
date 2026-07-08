@@ -40,13 +40,27 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      - name: Set up Android SDK
+        run: |
+          echo "ANDROID_SDK_ROOT=/usr/local/lib/android/sdk" >> $GITHUB_ENV
+          SDK=/usr/local/lib/android/sdk
+          yes | $SDK/cmdline-tools/latest/bin/sdkmanager --install "platforms;android-36" "build-tools;36.0.0" 2>&1
+
       - name: Build APK
         working-directory: client/android
-        id: build
         run: |
           chmod +x gradlew
-          set -o pipefail
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
           ./gradlew assembleDebug 2>&1 | tee build-output.log
+
+      - name: Upload error summary
+        if: failure()
+        working-directory: client/android
+        run: |
+          echo "### Gradle Build Failed" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          tail -50 build-output.log >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
 
       - name: Upload build log
         if: always()
