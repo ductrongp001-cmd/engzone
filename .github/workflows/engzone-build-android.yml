@@ -28,15 +28,23 @@ jobs:
           npm ci && npm run build
           mkdir -p android/app/src/main/assets/public
           cp -r dist/* android/app/src/main/assets/public/
-          cd android && chmod +x gradlew && ./gradlew assembleDebug
+          echo "sdk.dir=/usr/local/lib/android/sdk" > android/local.properties
+          chmod +x android/gradlew
+          cd android && set -o pipefail && ./gradlew assembleDebug --no-daemon --stacktrace 2>&1 | tee /tmp/gradle.log
+
+      - name: Error report
+        if: failure()
+        run: |
+          echo "::group::Gradle output"
+          tail -80 /tmp/gradle.log
+          echo "::endgroup::"
+          echo "::group::APK dir"
+          find /home/runner/work/engzone/engzone/client/android -name "*.apk" 2>/dev/null || echo "No APK"
+          find /home/runner -name "local.properties" 2>/dev/null || echo "No local.properties"
+          echo "::endgroup::"
+          echo "::error::Build failed - see log above"
 
       - uses: actions/upload-artifact@v4
         with:
           name: engzone-android
           path: client/android/app/build/outputs/apk/debug/*.apk
-
-      - name: Show APK info
-        if: always()
-        run: |
-          ls -la client/android/app/build/outputs/apk/debug/ 2>/dev/null
-          ls -la client/android/build-outputs.log 2>/dev/null
