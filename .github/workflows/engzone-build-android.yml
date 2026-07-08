@@ -81,11 +81,12 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon --stacktrace 2>&1 | tee /tmp/gradle.log
 
-      - name: Find APK
+      - name: Debug APK
         if: always()
         run: |
           find /home/runner -name "*.apk" 2>/dev/null
-          ls -la client/android/app/build/outputs/apk/debug/ 2>/dev/null || echo "No APK in expected path"
+          find /home/runner -name "*.aab" 2>/dev/null
+          ls -laR client/android/app/build/outputs/ 2>/dev/null || echo "No output dir"
 
       - name: Upload errors
         if: failure()
