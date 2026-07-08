@@ -43,11 +43,15 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
 
+      - name: Install required Android SDK components
+        run: |
+          sdkmanager "platforms;android-36" "build-tools;36.0.0" || echo "SDK install failed"
+
       - name: Build APK
         working-directory: client/android
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon
+          ./gradlew assembleDebug 2>&1
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
