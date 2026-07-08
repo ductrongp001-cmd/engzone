@@ -21,9 +21,7 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - uses: android-actions/setup-android@v2
-
-      - name: Build web app
+      - name: Build web app and copy to Android
         working-directory: client
         run: |
           npm ci
@@ -33,22 +31,19 @@ jobs:
           echo '{"appId":"com.engzone.app","appName":"EngZone","webDir":"dist"}' > android/app/src/main/assets/capacitor.config.json
           echo '[]' > android/app/src/main/assets/capacitor.plugins.json
 
+      - name: Set up local.properties
+        working-directory: client/android
+        run: |
+          echo "sdk.dir=/usr/local/lib/android/sdk" > local.properties
+          cat local.properties
+
       - name: Build APK
         working-directory: client/android
-        id: gradle
         run: |
           chmod +x gradlew
-          set -o pipefail
-          ./gradlew assembleDebug --no-daemon 2>&1 | tee /tmp/gradle.log
-
-      - name: Post output
-        if: always()
-        run: |
-          echo "### Build output" >> $GITHUB_STEP_SUMMARY
-          URL=$(tail -100 /tmp/gradle.log | curl -s -F 'f:1=<-' ix.io 2>&1)
-          echo "ix.io URL: $URL"
-          echo "ix.io URL: $URL" >> $GITHUB_STEP_SUMMARY
-          ls -la client/android/app/build/outputs/apk/debug/ 2>/dev/null && echo "APK FOUND" >> $GITHUB_STEP_SUMMARY || echo "No APK dir"
+          export ANDROID_HOME=/usr/local/lib/android/sdk
+          export ANDROID_SDK_ROOT=/usr/local/lib/android/sdk
+          ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
