@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">EngZone</string>
+    <string name="title_activity_main">EngZone</string>
+    <string name="package_name">com.engzone.app</string>
+    <string name="custom_url_scheme">com.engzone.app</string>
+</resources>
