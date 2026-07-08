@@ -40,16 +40,18 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Accept SDK licenses
-        run: yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null 2>&1 || true
-
       - name: Build APK
         working-directory: client/android
         run: |
+          echo "JAVA_HOME=$JAVA_HOME"
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+          ls -la /usr/local/lib/android/sdk/platforms/ 2>/dev/null || echo "No platforms dir"
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug 2>&1 | tail -50
 
       - name: Upload APK
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: engzone-android
