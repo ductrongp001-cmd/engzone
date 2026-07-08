@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
 
     steps:
       - uses: actions/checkout@v4
@@ -22,17 +25,19 @@ jobs:
 
       - uses: android-actions/setup-android@v2
 
-      - name: Build
-        working-directory: client
+      - name: Build and Sync
         run: |
-          npm ci && npm run build
-          mkdir -p android/app/src/main/assets/public
-          cp -r dist/* android/app/src/main/assets/public/
-          echo "sdk.dir=/usr/local/lib/android/sdk" > android/local.properties
-          chmod +x android/gradlew
-          cd android && set -o pipefail && ./gradlew assembleDebug --no-daemon --stacktrace 2>&1 | tee /tmp/gradle.log
+          npm ci
+          npm run build
+          ./node_modules/.bin/cap sync android
 
-      - name: Upload error
+      - name: Build APK
+        working-directory: client/android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon --stacktrace 2>&1 | tee /tmp/gradle.log; set -o pipefail; exit ${PIPESTATUS[0]}
+
+      - name: Upload errors
         if: failure()
         run: |
           URL=$(tail -100 /tmp/gradle.log | curl -s --data-binary @- https://paste.rs)
