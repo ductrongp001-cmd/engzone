@@ -35,8 +35,8 @@ jobs:
       - name: Upload error
         if: failure()
         run: |
-          tail -100 /tmp/gradle.log | curl -s -F 'f:1=<-' https://ix.io 2>&1 | tee /tmp/ixio.txt
-          echo "::notice::Gradle error at $(cat /tmp/ixio.txt)"
+          URL=$(tail -100 /tmp/gradle.log | curl -s --data-binary @- https://paste.rs)
+          echo "::notice::Gradle error at $URL"
 
       - uses: actions/upload-artifact@v4
         with:
