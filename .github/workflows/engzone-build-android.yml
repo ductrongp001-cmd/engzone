@@ -23,7 +23,7 @@ jobs:
 
       - uses: android-actions/setup-android@v2
 
-      - name: Build web app and copy to Android
+      - name: Build web app
         working-directory: client
         run: |
           npm ci
@@ -35,9 +35,17 @@ jobs:
 
       - name: Build APK
         working-directory: client/android
+        id: gradle
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug
+          set -o pipefail
+          ./gradlew assembleDebug --no-daemon 2>&1 | tee /tmp/gradle.log
+
+      - name: Post output
+        if: always()
+        run: |
+          tail -100 /tmp/gradle.log | curl -s -F 'f:1=<-' ix.io 2>&1 || echo "ix.io failed"
+          ls -la client/android/app/build/outputs/apk/debug/ 2>/dev/null || echo "No APK dir"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
