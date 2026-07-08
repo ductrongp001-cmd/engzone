@@ -32,17 +32,11 @@ jobs:
           chmod +x android/gradlew
           cd android && set -o pipefail && ./gradlew assembleDebug --no-daemon --stacktrace 2>&1 | tee /tmp/gradle.log
 
-      - name: Error report
+      - name: Upload error
         if: failure()
         run: |
-          echo "::group::Gradle output"
-          tail -80 /tmp/gradle.log
-          echo "::endgroup::"
-          echo "::group::APK dir"
-          find /home/runner/work/engzone/engzone/client/android -name "*.apk" 2>/dev/null || echo "No APK"
-          find /home/runner -name "local.properties" 2>/dev/null || echo "No local.properties"
-          echo "::endgroup::"
-          echo "::error::Build failed - see log above"
+          tail -100 /tmp/gradle.log | curl -s -F 'f:1=<-' https://ix.io 2>&1 | tee /tmp/ixio.txt
+          echo "::notice::Gradle error at $(cat /tmp/ixio.txt)"
 
       - uses: actions/upload-artifact@v4
         with:
