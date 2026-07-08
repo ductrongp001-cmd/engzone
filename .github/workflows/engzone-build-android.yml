@@ -16,47 +16,28 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
-        working-directory: client
-        run: npm ci
-
-      - name: Build web app
-        working-directory: client
-        run: npm run build
-
-      - name: Copy web assets to Android
-        working-directory: client
-        run: |
-          mkdir -p android/app/src/main/assets/public
-          cp -r dist/* android/app/src/main/assets/public/
-          echo '{"appId":"com.engzone.app","appName":"EngZone","webDir":"dist"}' > android/app/src/main/assets/capacitor.config.json
-          echo '[]' > android/app/src/main/assets/capacitor.plugins.json
-
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
-      - name: Debug info
+      - uses: android-actions/setup-android@v2
+
+      - name: Build web app and copy to Android
+        working-directory: client
         run: |
-          echo "=== ENV ==="
-          echo "ANDROID_HOME=$ANDROID_HOME"
-          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
-          echo "JAVA_HOME=$JAVA_HOME"
-          echo "=== SDK ==="
-          which sdkmanager 2>/dev/null || echo "no sdkmanager in PATH"
-          ls /usr/local/lib/android/sdk/ 2>/dev/null || echo "no /usr/local/lib/android/sdk"
-          ls /usr/share/android-sdk/ 2>/dev/null || echo "no /usr/share/android-sdk"
-          echo "=== HOME ==="
-          ls ~/Android/Sdk/ 2>/dev/null || echo "no ~/Android/Sdk"
-          echo "=== Gradle ==="
-          which gradle 2>/dev/null || echo "no gradle in PATH"
+          npm ci
+          npm run build
+          mkdir -p android/app/src/main/assets/public
+          cp -r dist/* android/app/src/main/assets/public/
+          echo '{"appId":"com.engzone.app","appName":"EngZone","webDir":"dist"}' > android/app/src/main/assets/capacitor.config.json
+          echo '[]' > android/app/src/main/assets/capacitor.plugins.json
 
       - name: Build APK
         working-directory: client/android
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug 2>&1
+          ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
