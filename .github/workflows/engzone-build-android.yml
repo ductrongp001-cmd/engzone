@@ -34,7 +34,9 @@ jobs:
           java-version: 17
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+        run: |
+          echo "ANDROID_HOME=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --licenses > /dev/null 2>&1 || true
 
       - name: Sync Capacitor
         run: npx cap sync android
