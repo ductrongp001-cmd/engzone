@@ -26,15 +26,19 @@ jobs:
         working-directory: client
         run: npm run build
 
+      - name: Copy web assets to Android
+        working-directory: client
+        run: |
+          mkdir -p android/app/src/main/assets/public
+          cp -r dist/* android/app/src/main/assets/public/
+          echo '{"appId":"com.engzone.app","appName":"EngZone","webDir":"dist"}' > android/app/src/main/assets/capacitor.config.json
+          echo '[]' > android/app/src/main/assets/capacitor.plugins.json
+
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
-
-      - name: Sync Capacitor
-        working-directory: client
-        run: npx cap sync android
 
       - name: Build APK
         working-directory: client/android
