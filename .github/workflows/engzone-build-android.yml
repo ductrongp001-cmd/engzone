@@ -76,36 +76,22 @@ jobs:
 
       - name: Build APK
         working-directory: client/android
+        shell: bash
         run: |
+          set -o pipefail
           echo "sdk.dir=/usr/local/lib/android/sdk" > local.properties
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon --stacktrace 2>&1 | tee /tmp/gradle.log
 
-      - name: Debug APK
-        if: always()
-        shell: bash
-        run: |
-          set +o pipefail
-          find . -name "*.apk" -type f 2>/dev/null | head -20 | while IFS= read -r f; do echo "::notice title=APK::Found APK at $f ($(stat -c%s "$f" 2>/dev/null || echo "?") bytes)"; done
-          find . -name "*.aab" -type f 2>/dev/null | head -20 | while IFS= read -r f; do echo "::notice title=AAB::Found AAB at $f ($(stat -c%s "$f" 2>/dev/null || echo "?") bytes)"; done
-          echo "=== build dir tree ==="
-          find client/android -path "*/build/outputs/*" -type f 2>/dev/null | head -50 || echo "no outputs found"
-
       - name: Upload errors
         if: failure()
         run: |
+          tail -100 /tmp/gradle.log | tee /dev/stderr
           URL=$(tail -100 /tmp/gradle.log | curl -s --data-binary @- https://paste.rs)
           echo "::notice::Gradle error at $URL"
-
-      - name: Collect APK
-        working-directory: client/android
-        run: |
-          mkdir -p /tmp/apk
-          find app/build/outputs -name "*.apk" -exec cp {} /tmp/apk/ \; 2>/dev/null
-          ls -la /tmp/apk/ || echo "NO APK FOUND"
 
       - uses: actions/upload-artifact@v4
         with:
           name: engzone-android
-          path: /tmp/apk/*.apk
+          path: client/android/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
