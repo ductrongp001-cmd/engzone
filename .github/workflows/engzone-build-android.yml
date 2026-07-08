@@ -83,10 +83,17 @@ jobs:
 
       - name: Debug APK
         if: always()
+        shell: bash
         run: |
-          find /home/runner -name "*.apk" 2>/dev/null
-          find /home/runner -name "*.aab" 2>/dev/null
-          ls -laR client/android/app/build/outputs/ 2>/dev/null || echo "No output dir"
+          set +o pipefail
+          echo "=== find *.apk ==="
+          find . -name "*.apk" 2>/dev/null || echo "none"
+          echo "=== find *.aab ==="
+          find . -name "*.aab" 2>/dev/null || echo "none"
+          echo "=== outputs tree ==="
+          find client/android/app/build/outputs -type f 2>/dev/null || echo "no outputs"
+          echo "=== apk in build ==="
+          find client/android -name "*.apk" 2>/dev/null || echo "no apk"
 
       - name: Upload errors
         if: failure()
