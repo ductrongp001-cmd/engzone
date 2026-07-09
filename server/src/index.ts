@@ -135,18 +135,98 @@ Structure:
 • Question: Am/Is/Are + Subject + V-ing?
 
 Dấu hiệu nhận biết: now, right now, at the moment, at present, today, this week/month, Look!, Listen!, still`,
-    "Quá khứ đơn & Hiện tại hoàn thành (Past Simple vs Present Perfect)": `Past Simple:
-• Completed action at a specific past time
-• Structure: Subject + V2 (ed/irregular)
-• Dấu hiệu nhận biết: yesterday, last week, ago, in 2010
+    "Quá khứ đơn (Past Simple)": `The Past Simple is used for:
+• Completed actions in the past (I visited Hanoi yesterday)
+• Past states (She lived in London for 5 years)
+• A series of completed actions (He woke up, brushed his teeth, and had breakfast)
 
-Present Perfect:
-• Past action with present relevance
-• Experience (Have you ever...?)
-• Result in present (I have lost my keys)
-• Unfinished time (today, this week)
-• Structure: have/has + V3 (past participle)
-• Dấu hiệu nhận biết: ever, never, already, yet, just, since, for, so far, recently, lately, up to now, this is the first time`,
+Structure:
+• Positive: Subject + V2/ed + Object
+  - I/You/He/She/It/We/They played / went
+• Negative: Subject + did + not + V (bare infinitive)
+  - I did not (didn't) go
+• Question: Did + Subject + V (bare infinitive)?
+  - Did you see her?
+
+Dấu hiệu nhận biết: yesterday, last (night/week/month/year), ago, in (2020), the day before yesterday, this morning (when meaning is past), then, at that time`,
+    "Quá khứ tiếp diễn (Past Continuous)": `The Past Continuous is used for:
+• Actions in progress at a specific past time (I was watching TV at 8 PM)
+• Interrupted actions (I was cooking when the phone rang)
+• Parallel actions (She was reading while he was cooking)
+• Background description in storytelling (The sun was shining, birds were singing...)
+
+Structure:
+• Positive: Subject + was/were + V-ing
+  - I/He/She/It was working
+  - We/You/They were working
+• Negative: Subject + was/were + not + V-ing
+  - I was not (wasn't) working
+  - We were not (weren't) working
+• Question: Was/Were + Subject + V-ing?
+  - Were you sleeping?
+
+Dấu hiệu nhận biết: at (5 PM) yesterday, at that time, while, when (một hành động đang xảy ra thì hành động khác xen vào), all (day/morning/evening), as`,
+    "Hiện tại hoàn thành (Present Perfect)": `The Present Perfect is used for:
+• Past actions with present relevance (I have lost my keys — still missing)
+• Life experiences (She has visited Japan twice)
+• Actions that started in the past and continue to now (He has worked here since 2020)
+• Recent past actions with present effect (I have just finished my homework)
+
+Structure:
+• Positive: Subject + have/has + V3/ed
+  - I/You/We/They have seen
+  - He/She/It has seen
+• Negative: Subject + have/has + not + V3/ed
+  - I have not (haven't) seen
+  - He has not (hasn't) seen
+• Question: Have/Has + Subject + V3/ed?
+  - Have you ever been to Paris?
+
+Dấu hiệu nhận biết: ever, never, already, just, yet, recently, lately, so far, up to now, until now, since (+ mốc thời gian), for (+ khoảng thời gian), this (week/month/year), once/twice/three times, the first/second time`,
+    "Hiện tại hoàn thành tiếp diễn (Present Perfect Continuous)": `The Present Perfect Continuous is used for:
+• Actions that started in the past and continue to now (I have been studying for 3 hours)
+• Actions that recently stopped with visible results (You're wet — have you been running?)
+• Emphasizing the duration of an action (She has been working here since 2018)
+
+Structure:
+• Positive: Subject + have/has + been + V-ing
+  - I/You/We/They have been waiting
+  - He/She/It has been waiting
+• Negative: Subject + have/has + not + been + V-ing
+  - I have not (haven't) been waiting
+  - He has not (hasn't) been waiting
+• Question: Have/Has + Subject + been + V-ing?
+  - Have you been waiting long?
+
+Dấu hiệu nhận biết: for (+ khoảng thời gian), since (+ mốc thời gian), all (day/morning/week), how long, lately, recently`,
+    "Quá khứ hoàn thành (Past Perfect)": `The Past Perfect is used for:
+• Actions completed before another past action (I had already eaten when she arrived)
+• Actions completed before a specific time in the past (She had finished by 5 PM)
+• The "earlier past" in storytelling (He had never seen such a beautiful place before)
+
+Structure:
+• Positive: Subject + had + V3/ed
+  - I/You/He/She/It/We/They had left
+• Negative: Subject + had + not + V3/ed
+  - I had not (hadn't) left
+• Question: Had + Subject + V3/ed?
+  - Had you finished before they came?
+
+Dấu hiệu nhận biết: already, just, never, by the time (+ mệnh đề), before, after, until, when (nhấn mạnh hành động xảy ra trước), by (+ thời gian)`,
+    "Quá khứ hoàn thành tiếp diễn (Past Perfect Continuous)": `The Past Perfect Continuous is used for:
+• Actions that had been in progress before another past action (She had been waiting for an hour before he arrived)
+• Cause of a past state (He was tired because he had been working all day)
+• Emphasizing duration before a past moment (They had been traveling for 6 hours by noon)
+
+Structure:
+• Positive: Subject + had + been + V-ing
+  - I/You/He/She/It/We/They had been waiting
+• Negative: Subject + had + not + been + V-ing
+  - I had not (hadn't) been waiting
+• Question: Had + Subject + been + V-ing?
+  - Had you been waiting long?
+
+Dấu hiệu nhận biết: before, after, by the time, for (+ khoảng thời gian), since (+ mốc thời gian), how long, all (day/morning/week), by (+ thời gian)`,
     "Câu điều kiện (Conditional Sentences)": `Zero Conditional (General truth):
 • If + Present Simple, Present Simple
 • If you heat ice, it melts.
@@ -210,60 +290,73 @@ Key rules:
 • Common with: suggest, recommend, demand, insist, propose
 
 Dấu hiệu nhận biết: wish, if only, would rather, as if/as though, suggest, recommend, demand, insist, propose, urge; các cấu trúc "It is + adj + that...": essential, important, necessary, vital`,
-    "Thì tương lai (Future Tenses)": `Four main ways to talk about the future:
+    "Tương lai đơn (Future Simple)": `The Future Simple is used for:
+• Predictions (It will rain tomorrow)
+• Spontaneous decisions (I'll answer the phone)
+• Promises, offers, threats (I will help you with that)
+• Planned intentions with "going to" (She is going to study abroad)
 
-1. Will + V (Predictions, spontaneous decisions, promises)
-   • It will rain tomorrow.
-   • I'll help you with that.
-   • I promise I will call you.
+Structure with Will:
+• Positive: Subject + will + V (bare infinitive)
+  - I/You/He/She/It/We/They will go
+• Negative: Subject + will + not + V
+  - I will not (won't) go
+• Question: Will + Subject + V?
+  - Will you come?
 
-2. Going to + V (Plans, intentions, predictions with evidence)
-   • I'm going to study medicine.
-   • Look at those clouds! It's going to rain.
+Structure with Be Going To:
+• Positive: Subject + am/is/are + going to + V
+  - I am going to study
+  - She is going to travel
+• Negative: Subject + am/is/are + not + going to + V
+  - I am not going to go
+• Question: Am/Is/Are + Subject + going to + V?
+  - Are you going to apply for that job?
 
-3. Present Continuous (Fixed arrangements)
-   • I'm meeting my friend at 6 PM.
-   • We're having a party next Saturday.
+Dấu hiệu nhận biết: tomorrow, next (week/month/year), soon, in the future, tonight, this weekend, I think/I hope/I promise/I expect, probably, definitely, maybe`,
+    "Tương lai tiếp diễn (Future Continuous)": `The Future Continuous is used for:
+• Actions in progress at a specific future time (I will be flying to Hanoi at 8 PM tomorrow)
+• Actions that will happen as part of a normal routine (I will be working as usual)
+• Polite inquiries (Will you be using the car tonight?)
+• Parallel actions in the future (She will be cooking while I will be cleaning)
 
-4. Present Simple (Schedules/Timetables)
-   • The train leaves at 7 AM.
-   • The store opens at 9 AM.
+Structure:
+• Positive: Subject + will + be + V-ing
+  - I/You/He/She/It/We/They will be working
+• Negative: Subject + will + not + be + V-ing
+  - I will not (won't) be working
+• Question: Will + Subject + be + V-ing?
+  - Will you be coming to the meeting?
 
-Future Continuous: will be + V-ing (Actions in progress at a future time)
-  • This time tomorrow, I will be flying to Paris.
+Dấu hiệu nhận biết: this time tomorrow/next week, at (5 PM) tomorrow, in the coming years, when (+ mệnh đề ở hiện tại), by this time next (week/month/year)`,
+    "Tương lai hoàn thành (Future Perfect)": `The Future Perfect is used for:
+• Actions that will be completed before a specific future time (She will have finished by 5 PM)
+• Actions completed before another future action (I will have eaten before you arrive)
+• Duration by a certain future point (By next year, I will have lived here for 10 years)
 
-Future Perfect: will have + V3 (Completed actions by a future time)
-  • By 2028, I will have graduated from university.
+Structure:
+• Positive: Subject + will + have + V3/ed
+  - I/You/He/She/It/We/They will have finished
+• Negative: Subject + will + not + have + V3/ed
+  - I will not (won't) have finished
+• Question: Will + Subject + have + V3/ed?
+  - Will you have finished by then?
 
-Dấu hiệu nhận biết:
-• Will: tomorrow, soon, later, I think, I promise, I hope, probably, definitely
-• Going to: planned, intend to, look at those clouds/that (dự đoán có bằng chứng)
-• Present Continuous (tương lai): tonight, tomorrow, this weekend (lịch trình cố định)
-• Present Simple (tương lai): theo thời gian biểu (schedules, timetables)
-• Future Continuous: at this time tomorrow/next week, this time next...
-• Future Perfect: by + thời gian (by 2028, by the time, by then), by the end of`,
-    "Quá khứ tiếp diễn & Quá khứ hoàn thành (Past Continuous & Past Perfect)": `Past Continuous: was/were + V-ing
-• Actions in progress at a specific past time
-  - I was watching TV at 8 PM last night.
-• Interrupted actions
-  - I was walking home when it started raining.
-• Parallel actions in the past
-  - While I was cooking, he was cleaning.
+Dấu hiệu nhận biết: by (+ thời gian), by the time (+ mệnh đề), before (+ thời gian), by then, by next (week/month/year), when (đã hoàn thành trước)`,
+    "Tương lai hoàn thành tiếp diễn (Future Perfect Continuous)": `The Future Perfect Continuous is used for:
+• Actions that will have been in progress for a duration before a specific future time (By December, I will have been working here for 5 years)
+• Emphasizing duration before a future moment (She will have been studying for 6 hours by the time the exam starts)
+• Projecting ongoing actions (By next summer, they will have been building this bridge for 3 years)
 
-Past Perfect: had + V3
-• Action completed before another past action
-  - When I arrived, they had already left.
-• The "earlier past" (past before the past)
-  - She had studied English before she moved to the UK.
+Structure:
+• Positive: Subject + will + have + been + V-ing
+  - I/You/He/She/It/We/They will have been working
+• Negative: Subject + will + not + have + been + V-ing
+  - I will not (won't) have been working
+• Question: Will + Subject + have + been + V-ing?
+  - Will you have been waiting long?
 
-Past Perfect Continuous: had been + V-ing
-• Duration before something in the past
-  - They had been waiting for hours when the bus finally came.
-
-Dấu hiệu nhận biết:
-• Past Continuous: at 8 PM last night, at this time yesterday, when (hành động xen vào), while (hành động song song)
-• Past Perfect: before, after, by the time, when, already, just, never...before, until then
-• Past Perfect Continuous: for + khoảng thời gian, since, before, by the time`,
+Dấu hiệu nhận biết: by (+ thời gian), by the time (+ mệnh đề), for (+ khoảng thời gian), since (+ mốc thời gian), by next (week/month/year)`,
     "Mạo từ (Articles: A/An/The)": `Articles are used before nouns.
 
 Indefinite Articles (A/An):
@@ -1362,13 +1455,10 @@ async function translateGrammarTitles() {
   const titleMap: Record<string, string> = {
     "Present Simple Tense": "Hiện tại đơn (Present Simple)",
     "Present Continuous Tense": "Hiện tại tiếp diễn (Present Continuous)",
-    "Past Simple vs Present Perfect": "Quá khứ đơn & Hiện tại hoàn thành (Past Simple vs Present Perfect)",
     "Conditional Sentences (If-clauses)": "Câu điều kiện (Conditional Sentences)",
     "Passive Voice": "Câu bị động (Passive Voice)",
     "Reported Speech": "Câu tường thuật (Reported Speech)",
     "Subjunctive Mood": "Thể giả định (Subjunctive Mood)",
-    "Future Tenses": "Thì tương lai (Future Tenses)",
-    "Past Continuous & Past Perfect": "Quá khứ tiếp diễn & Quá khứ hoàn thành (Past Continuous & Past Perfect)",
     "Articles: A/An/The": "Mạo từ (Articles: A/An/The)",
     "Prepositions of Time & Place": "Giới từ chỉ thời gian & nơi chốn (Prepositions of Time & Place)",
     "Relative Clauses": "Mệnh đề quan hệ (Relative Clauses)",
@@ -1398,6 +1488,105 @@ async function translateGrammarTitles() {
   console.log("Translated grammar lesson titles to Vietnamese");
 }
 
+async function restructureTenses() {
+  const db = await getDb();
+  const old = db.exec("SELECT id FROM grammar_lessons WHERE title IN ('Past Simple vs Present Perfect', 'Quá khứ đơn & Hiện tại hoàn thành (Past Simple vs Present Perfect)') LIMIT 1");
+  if (!old[0]?.values[0]?.[0]) return; // already restructured
+
+  // Delete old bundled lessons (check both old English and bilingual titles)
+  db.run("DELETE FROM grammar_lessons WHERE title IN ('Past Simple vs Present Perfect', 'Future Tenses', 'Past Continuous & Past Perfect', 'Quá khứ đơn & Hiện tại hoàn thành (Past Simple vs Present Perfect)', 'Thì tương lai (Future Tenses)', 'Quá khứ tiếp diễn & Quá khứ hoàn thành (Past Continuous & Past Perfect)')");
+  db.run("DELETE FROM grammar_examples WHERE lesson_id NOT IN (SELECT id FROM grammar_lessons)");
+
+  // Insert 10 new tense lessons
+  const newTenses = [
+    { title: "Hiện tại hoàn thành (Present Perfect)", level: "intermediate", category: "Tenses", order_index: 3 },
+    { title: "Hiện tại hoàn thành tiếp diễn (Present Perfect Continuous)", level: "intermediate", category: "Tenses", order_index: 4 },
+    { title: "Quá khứ đơn (Past Simple)", level: "beginner", category: "Tenses", order_index: 5 },
+    { title: "Quá khứ tiếp diễn (Past Continuous)", level: "intermediate", category: "Tenses", order_index: 6 },
+    { title: "Quá khứ hoàn thành (Past Perfect)", level: "intermediate", category: "Tenses", order_index: 7 },
+    { title: "Quá khứ hoàn thành tiếp diễn (Past Perfect Continuous)", level: "advanced", category: "Tenses", order_index: 8 },
+    { title: "Tương lai đơn (Future Simple)", level: "beginner", category: "Tenses", order_index: 9 },
+    { title: "Tương lai tiếp diễn (Future Continuous)", level: "intermediate", category: "Tenses", order_index: 10 },
+    { title: "Tương lai hoàn thành (Future Perfect)", level: "advanced", category: "Tenses", order_index: 11 },
+    { title: "Tương lai hoàn thành tiếp diễn (Future Perfect Continuous)", level: "advanced", category: "Tenses", order_index: 12 },
+  ];
+  for (const t of newTenses) {
+    db.run("INSERT INTO grammar_lessons (title, content, level, category, order_index) VALUES (?, '', ?, ?, ?)",
+      [t.title, t.level, t.category, t.order_index]);
+  }
+
+  // Update order_index of remaining non-tense lessons (+7)
+  // IMPORTANT: process in DESCENDING order to avoid index collisions
+  const orderMap: [number, number][] = [
+    [24, 31], [23, 30], [22, 29], [21, 28], [20, 27], [19, 26], [18, 25],
+    [17, 24], [16, 23], [15, 22], [14, 21], [13, 20],
+    [12, 19], [11, 18], [10, 17],
+    [7, 16], [6, 15], [5, 14], [4, 13],
+  ];
+  for (const [oldIdx, newIdx] of orderMap) {
+    db.run("UPDATE grammar_lessons SET order_index = ? WHERE order_index = ?", [newIdx, oldIdx]);
+  }
+  saveDb();
+  console.log("Restructured tenses: split bundled lessons into individual tenses");
+}
+
+async function fixOrderIndexes() {
+  const db = await getDb();
+  const lessonOrder: Record<string, number> = {
+    "Hiện tại đơn (Present Simple)": 1,
+    "Hiện tại tiếp diễn (Present Continuous)": 2,
+    "Hiện tại hoàn thành (Present Perfect)": 3,
+    "Hiện tại hoàn thành tiếp diễn (Present Perfect Continuous)": 4,
+    "Quá khứ đơn (Past Simple)": 5,
+    "Quá khứ tiếp diễn (Past Continuous)": 6,
+    "Quá khứ hoàn thành (Past Perfect)": 7,
+    "Quá khứ hoàn thành tiếp diễn (Past Perfect Continuous)": 8,
+    "Tương lai đơn (Future Simple)": 9,
+    "Tương lai tiếp diễn (Future Continuous)": 10,
+    "Tương lai hoàn thành (Future Perfect)": 11,
+    "Tương lai hoàn thành tiếp diễn (Future Perfect Continuous)": 12,
+    "Câu điều kiện (Conditional Sentences)": 13,
+    "Câu bị động (Passive Voice)": 14,
+    "Câu tường thuật (Reported Speech)": 15,
+    "Thể giả định (Subjunctive Mood)": 16,
+    "Mạo từ (Articles: A/An/The)": 17,
+    "Giới từ chỉ thời gian & nơi chốn (Prepositions of Time & Place)": 18,
+    "Mệnh đề quan hệ (Relative Clauses)": 19,
+    "So sánh hơn & so sánh nhất (Comparatives & Superlatives)": 20,
+    "Động từ khiếm khuyết (Modal Verbs)": 21,
+    "Danh động từ & Động từ nguyên mẫu (Gerunds & Infinitives)": 22,
+    "Cụm động từ (Phrasal Verbs)": 23,
+    "Từ nối (Linking Words & Connectors)": 24,
+    "Đảo ngữ & Nhấn mạnh (Inversion & Emphasis)": 25,
+    "Câu chẻ (Cleft Sentences)": 26,
+    "Câu điều kiện hỗn hợp (Mixed Conditionals)": 27,
+    "Thể sai khiến (Causative Form)": 28,
+    "Mệnh đề phân từ (Participle Clauses)": 29,
+    "Câu ước & Sự hối tiếc (Wishes & Regrets)": 30,
+    "Lượng từ & Định từ (Quantifiers & Determiners)": 31,
+    "Câu hỏi đuôi (Question Tags)": 32,
+    "Tân ngữ trực tiếp & gián tiếp (Direct & Indirect Objects)": 33,
+    "Trật tự từ trong câu (Word Order in English Sentences)": 34,
+  };
+  const rows = db.exec("SELECT id, title FROM grammar_lessons ORDER BY id");
+  let changed = 0;
+  for (const row of rows[0]?.values ?? []) {
+    const id = row[0] as number;
+    const title = row[1] as string;
+    const correctOrder = lessonOrder[title];
+    if (correctOrder) {
+      db.run("UPDATE grammar_lessons SET order_index = ? WHERE id = ?", [correctOrder, id]);
+      changed++;
+    }
+  }
+  if (changed > 0) {
+    saveDb();
+    console.log(`Fixed order_index for ${changed} grammar lessons`);
+  } else {
+    console.log("Order indexes already correct, no fix needed");
+  }
+}
+
 async function start() {
   await initSchema();
   const db = await getDb();
@@ -1408,6 +1597,8 @@ async function start() {
     await runSeed();
   }
   await addExtraContent();
+  await restructureTenses();
+  await fixOrderIndexes();
   await translateGrammarTitles();
   await updateGrammarContent();
   app.listen(PORT, "0.0.0.0", () => {

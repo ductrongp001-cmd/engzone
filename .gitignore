@@ -2,3 +2,9 @@ node_modules
 dist
 *.local
 itzone/
+server/data/
+server/server.err
+server/server.log
+server/check_db.cjs
+*.py
+deskpet/
