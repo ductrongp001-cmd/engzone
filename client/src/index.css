@@ -853,6 +853,75 @@ body {
   margin-left: 0.3rem;
 }
 
+/* IRREGULAR VERBS */
+.irregular-table-wrapper {
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+.irregular-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.irregular-table th {
+  background: #f1f5f9;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 2px solid #e2e8f0;
+  white-space: nowrap;
+}
+.irregular-table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+.irregular-row {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.irregular-row:hover {
+  background: #f8fafc;
+}
+.irregular-num {
+  color: #94a3b8;
+  font-size: 0.8rem;
+  width: 2.5rem;
+}
+.irregular-base {
+  font-weight: 600;
+  color: #4f46e5;
+}
+.irregular-past, .irregular-pp {
+  color: #334155;
+}
+.irregular-meaning {
+  color: #64748b;
+}
+.irregular-expand {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.7rem;
+  width: 2rem;
+}
+.irregular-ex-row td {
+  background: #f8fafc;
+  padding: 0.5rem 1rem 0.8rem;
+}
+.irregular-example {
+  color: #64748b;
+  font-size: 0.85rem;
+  padding-left: 2.5rem;
+}
+.irregular-example strong {
+  color: #475569;
+}
+.page-desc {
+  color: #64748b;
+  margin-bottom: 1rem;
+}
+
 /* AUTH */
 .auth-tabs {
   display: flex;
@@ -1438,6 +1507,18 @@ body.dark {
 .dark .admin-table tr:hover td { background: #1e293b; }
 .dark .admin-form input, .dark .admin-form select, .dark .admin-form textarea { background: var(--bg-card); color: var(--text); border-color: var(--border); }
 .dark .admin-btn-sm { background: var(--bg-card-hover); color: var(--text-secondary); }
+
+.dark .irregular-table-wrapper { border-color: var(--border); }
+.dark .irregular-table th { background: #1e293b; color: var(--text-secondary); border-color: var(--border); }
+.dark .irregular-table td { border-color: var(--border); }
+.dark .irregular-row:hover { background: #1e293b; }
+.dark .irregular-base { color: #a5b4fc; }
+.dark .irregular-past, .dark .irregular-pp { color: var(--text); }
+.dark .irregular-meaning { color: var(--text-secondary); }
+.dark .irregular-ex-row td { background: #0f172a; }
+.dark .irregular-example { color: var(--text-secondary); }
+.dark .irregular-example strong { color: var(--text); }
+.dark .page-desc { color: var(--text-secondary); }
 
 /* === RESPONSIVE === */
 @media (max-width: 768px) {

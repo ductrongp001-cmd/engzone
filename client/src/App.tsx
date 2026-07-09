@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Vocabulary from "./pages/Vocabulary";
 import Grammar from "./pages/Grammar";
 import Exercises from "./pages/Exercises";
+import IrregularVerbs from "./pages/IrregularVerbs";
 import Progress from "./pages/Progress";
 import Dictionary from "./pages/Dictionary";
 import AuthPage from "./pages/AuthPage";
@@ -29,6 +30,7 @@ export default function App() {
             <Route path="/vocabulary" element={<Vocabulary />} />
             <Route path="/grammar" element={<Grammar />} />
             <Route path="/exercises" element={<Exercises />} />
+            <Route path="/irregular-verbs" element={<IrregularVerbs />} />
             <Route path="/progress" element={<Progress />} />
             <Route path="/dictionary" element={<Dictionary />} />
             <Route path="/auth" element={<AuthPage />} />

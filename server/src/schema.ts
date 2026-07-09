@@ -102,6 +102,17 @@ export async function initSchema() {
   `);
 
   db.run(`
+    CREATE TABLE IF NOT EXISTS irregular_verbs (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      base_form TEXT NOT NULL,
+      past_simple TEXT NOT NULL,
+      past_participle TEXT NOT NULL,
+      meaning TEXT NOT NULL,
+      example TEXT
+    )
+  `);
+
+  db.run(`
     CREATE TABLE IF NOT EXISTS api_cache (
       key TEXT PRIMARY KEY,
       data TEXT NOT NULL,

@@ -67,6 +67,15 @@ export interface AdminUser {
   created_at: string;
 }
 
+export interface IrregularVerb {
+  id: number;
+  base_form: string;
+  past_simple: string;
+  past_participle: string;
+  meaning: string;
+  example: string;
+}
+
 export interface AdminStats {
   topics: number;
   words: number;

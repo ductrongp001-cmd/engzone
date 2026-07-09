@@ -7,6 +7,7 @@ const links = [
   { to: "/vocabulary", label: "Từ vựng" },
   { to: "/grammar", label: "Ngữ pháp" },
   { to: "/exercises", label: "Bài tập" },
+  { to: "/irregular-verbs", label: "Động từ bất quy tắc" },
   { to: "/progress", label: "Tiến độ" },
   { to: "/dictionary", label: "Từ điển" },
   { to: "/flashcard", label: "Flashcard" },

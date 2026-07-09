@@ -9,6 +9,7 @@ import grammarRoutes from "./routes/grammar";
 import exercisesRoutes from "./routes/exercises";
 import progressRoutes from "./routes/progress";
 import adminRoutes from "./routes/admin";
+import irregularVerbsRoutes from "./routes/irregular-verbs";
  
 const app = express();
 const PORT = parseInt(process.env.PORT || "3001");
@@ -22,6 +23,7 @@ app.use("/api/grammar", grammarRoutes);
 app.use("/api/exercises", exercisesRoutes);
 app.use("/api/progress", progressRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/irregular-verbs", irregularVerbsRoutes);
 
 app.get("/api/translate/:word", async (req, res) => {
   const word = req.params.word.trim().toLowerCase();
@@ -101,8 +103,867 @@ async function migratePasswords() {
   }
 }
 
+async function updateGrammarContent() {
+  const db = await getDb();
+
+  const updates: Record<string, string> = {
+    "Present Simple Tense": `The Present Simple is used for:
+• Facts and general truths (The sun rises in the east)
+• Habits and routines (I wake up at 7 AM)
+• Scheduled events (The train leaves at 6 PM)
+
+Structure:
+• Positive: Subject + V(s/es) + Object
+  - I/You/We/They → play
+  - He/She/It → plays
+• Negative: Subject + do/does + not + V
+  - I do not (don't) like coffee
+  - He does not (doesn't) eat meat
+• Question: Do/Does + Subject + V?
+  - Do you speak English?
+  - Does she work here?
+
+Dấu hiệu nhận biết: always, usually, often, sometimes, seldom, rarely, never, every (day/week/year), on (Mondays/weekends), once/twice a (week/month)`,
+    "Present Continuous Tense": `The Present Continuous is used for:
+• Actions happening now (I am reading now)
+• Temporary situations (She is staying with friends)
+• Future arrangements (We are meeting tomorrow)
+
+Structure:
+• Positive: Subject + am/is/are + V-ing
+• Negative: Subject + am/is/are + not + V-ing
+• Question: Am/Is/Are + Subject + V-ing?
+
+Dấu hiệu nhận biết: now, right now, at the moment, at present, today, this week/month, Look!, Listen!, still`,
+    "Past Simple vs Present Perfect": `Past Simple:
+• Completed action at a specific past time
+• Structure: Subject + V2 (ed/irregular)
+• Dấu hiệu nhận biết: yesterday, last week, ago, in 2010
+
+Present Perfect:
+• Past action with present relevance
+• Experience (Have you ever...?)
+• Result in present (I have lost my keys)
+• Unfinished time (today, this week)
+• Structure: have/has + V3 (past participle)
+• Dấu hiệu nhận biết: ever, never, already, yet, just, since, for, so far, recently, lately, up to now, this is the first time`,
+    "Conditional Sentences (If-clauses)": `Zero Conditional (General truth):
+• If + Present Simple, Present Simple
+• If you heat ice, it melts.
+
+First Conditional (Real future):
+• If + Present Simple, will + V
+• If it rains, I will stay home.
+
+Second Conditional (Unreal present):
+• If + Past Simple, would + V
+• If I were rich, I would travel the world.
+
+Third Conditional (Unreal past):
+• If + Past Perfect, would have + V3
+• If I had studied, I would have passed.
+
+Dấu hiệu nhận biết: if, unless, provided (that), as long as, in case, even if — kết hợp với thì tương ứng`,
+    "Passive Voice": `The Passive Voice is used when:
+• The action is more important than the doer
+• The doer is unknown or obvious
+• Formal/academic writing
+
+Structure: Subject + be + V3 (by agent)
+
+Tenses in Passive:
+• Present Simple: is/am/are + V3
+• Past Simple: was/were + V3
+• Present Perfect: have/has been + V3
+• Future: will be + V3
+• Modals: can/must/should be + V3
+
+Dấu hiệu nhận biết: chủ ngữ không xác định hoặc không quan trọng (by someone, by people, by them), hành động được nhấn mạnh hơn người thực hiện, văn phong trang trọng`,
+    "Reported Speech": `Reported Speech is used to report what someone said without quoting directly.
+
+Key changes when reporting:
+• Pronouns change (I → he/she)
+• Tenses go back one step:
+  - Present Simple → Past Simple
+  - Present Continuous → Past Continuous
+  - Past Simple → Past Perfect
+  - Will → Would
+  - Can → Could
+• Time/place words change:
+  - now → then
+  - today → that day
+  - here → there
+  - tomorrow → the next day
+
+Structure: He said (that) + clause
+
+Dấu hiệu nhận biết: các động từ tường thuật (reporting verbs): say, tell, ask, explain, mention, claim, report, state, announce; các từ chuyển đổi thời gian: now→then, today→that day, tomorrow→the next day, yesterday→the day before, here→there`,
+    "Subjunctive Mood": `The Subjunctive Mood is used for:
+• Wishes (I wish I were...)
+• Suggestions (I suggest that he study...)
+• Demands/Recommendations (It is essential that she be...)
+• After "if only" (If only I knew...)
+
+Key rules:
+• "Were" is used for all persons (I wish I were... not "was")
+• Verbs remain in base form (I suggest he go... not "goes")
+• Common with: suggest, recommend, demand, insist, propose
+
+Dấu hiệu nhận biết: wish, if only, would rather, as if/as though, suggest, recommend, demand, insist, propose, urge; các cấu trúc "It is + adj + that...": essential, important, necessary, vital`,
+    "Future Tenses": `Four main ways to talk about the future:
+
+1. Will + V (Predictions, spontaneous decisions, promises)
+   • It will rain tomorrow.
+   • I'll help you with that.
+   • I promise I will call you.
+
+2. Going to + V (Plans, intentions, predictions with evidence)
+   • I'm going to study medicine.
+   • Look at those clouds! It's going to rain.
+
+3. Present Continuous (Fixed arrangements)
+   • I'm meeting my friend at 6 PM.
+   • We're having a party next Saturday.
+
+4. Present Simple (Schedules/Timetables)
+   • The train leaves at 7 AM.
+   • The store opens at 9 AM.
+
+Future Continuous: will be + V-ing (Actions in progress at a future time)
+  • This time tomorrow, I will be flying to Paris.
+
+Future Perfect: will have + V3 (Completed actions by a future time)
+  • By 2028, I will have graduated from university.
+
+Dấu hiệu nhận biết:
+• Will: tomorrow, soon, later, I think, I promise, I hope, probably, definitely
+• Going to: planned, intend to, look at those clouds/that (dự đoán có bằng chứng)
+• Present Continuous (tương lai): tonight, tomorrow, this weekend (lịch trình cố định)
+• Present Simple (tương lai): theo thời gian biểu (schedules, timetables)
+• Future Continuous: at this time tomorrow/next week, this time next...
+• Future Perfect: by + thời gian (by 2028, by the time, by then), by the end of`,
+    "Past Continuous & Past Perfect": `Past Continuous: was/were + V-ing
+• Actions in progress at a specific past time
+  - I was watching TV at 8 PM last night.
+• Interrupted actions
+  - I was walking home when it started raining.
+• Parallel actions in the past
+  - While I was cooking, he was cleaning.
+
+Past Perfect: had + V3
+• Action completed before another past action
+  - When I arrived, they had already left.
+• The "earlier past" (past before the past)
+  - She had studied English before she moved to the UK.
+
+Past Perfect Continuous: had been + V-ing
+• Duration before something in the past
+  - They had been waiting for hours when the bus finally came.
+
+Dấu hiệu nhận biết:
+• Past Continuous: at 8 PM last night, at this time yesterday, when (hành động xen vào), while (hành động song song)
+• Past Perfect: before, after, by the time, when, already, just, never...before, until then
+• Past Perfect Continuous: for + khoảng thời gian, since, before, by the time`,
+    "Articles: A/An/The": `Articles are used before nouns.
+
+Indefinite Articles (A/An):
+• A + consonant sound: a book, a university, a cat
+• An + vowel sound: an apple, an hour, an honest man
+• Use for non-specific items or first mention
+  - I saw a dog. (any dog, first time mentioned)
+  - She is a teacher. (describing profession)
+
+Definite Article (The):
+• Specific items or already mentioned
+  - The dog I saw was brown. (specific dog)
+• Unique things: the sun, the moon, the Earth
+• Superlatives: the best, the most beautiful
+• Musical instruments: play the piano, the guitar
+• Ordinal numbers: the first, the second
+
+Zero Article (No article):
+• General plurals: Cats are animals.
+• Uncountable nouns (general): Water is essential.
+• Proper nouns: I live in Vietnam.
+• Meals: have breakfast, lunch, dinner
+• Sports: play football, tennis
+
+Dấu hiệu nhận biết:
+• A/An: lần đầu nhắc đến, danh từ đếm được số ít chưa xác định
+• The: đã nhắc đến trước đó, duy nhất, so sánh nhất, số thứ tự
+• Không mạo từ: danh từ số nhiều chung chung, danh từ không đếm được, tên riêng, bữa ăn, môn thể thao`,
+    "Prepositions of Time & Place": `Prepositions of Time:
+
+AT: specific times, holidays, night
+• at 5 o'clock, at midnight, at night, at Christmas
+• at the moment, at present
+
+IN: months, years, seasons, longer periods
+• in January, in 2024, in summer, in the morning
+• in the past, in the future
+
+ON: days, dates, surfaces
+• on Monday, on July 4th, on my birthday
+• on the table, on the wall
+
+Prepositions of Place:
+
+AT: specific points/positions
+• at the bus stop, at the door, at the desk
+• at home, at work, at school
+
+IN: enclosed spaces, areas
+• in the room, in the garden, in the city
+• in the world, in a book
+
+ON: surfaces, lines
+• on the floor, on the page, on the left
+• on a bus, on a train, on TV
+
+BY: next to, near
+• Sit by me. / The house by the river.
+• by bus, by car (method of transport)
+
+Dấu hiệu nhận biết:
+• AT + giờ cụ thể / địa điểm cụ thể: at 5 o'clock, at night, at the door, at work
+• IN + tháng/năm/mùa / không gian kín: in May, in 2024, in summer, in the room, in the city
+• ON + ngày/bề mặt: on Monday, on July 4th, on the table, on the floor
+• BY + phương tiện / bên cạnh: by car, by bus, sit by me`,
+    "Relative Clauses": `Relative clauses give more information about a noun.
+
+Defining Relative Clauses (essential information):
+• Who/That → people: The woman who lives next door is a doctor.
+• Which/That → things: The book which I read was great.
+• Where → places: This is the house where I grew up.
+• When → time: I remember the day when we met.
+• Whose → possession: The man whose car was stolen called the police.
+
+Non-defining Relative Clauses (extra information, with commas):
+• The Eiffel Tower, which is in Paris, is beautiful.
+• My sister, who lives in London, is a lawyer.
+
+Note: 'That' CANNOT be used in non-defining clauses.
+Omission of relative pronouns:
+• When the relative pronoun is the object, it can be omitted:
+  - The book (that/which) I read was interesting.
+
+Dấu hiệu nhận biết: who (người), which (vật), that (cả người và vật - không dùng trong mệnh đề không xác định), whose (sở hữu), where (nơi chốn), when (thời gian), why (lý do)`,
+    "Comparatives & Superlatives": `Used to compare things.
+
+Comparatives (comparing two things):
+• Short adjectives (1-2 syllables): adjective + -er + than
+  - tall → taller than, big → bigger than, happy → happier than
+• Long adjectives (2+ syllables): more + adjective + than
+  - more beautiful than, more interesting than
+• Irregular:
+  - good → better than, bad → worse than, far → farther/further than
+
+Superlatives (comparing three or more):
+• the + short adjective + -est
+  - the tallest, the biggest, the happiest
+• the most + long adjective
+  - the most beautiful, the most expensive
+• Irregular:
+  - the best, the worst, the farthest/furthest
+
+As...as (equal comparison):
+• She is as tall as her brother.
+• He is not as smart as his sister.
+
+Less / The least (decreasing comparison):
+• This book is less expensive than that one.
+• This is the least interesting movie I've seen.
+
+Dấu hiệu nhận biết:
+• So sánh hơn: than, much/far/a lot + comparative, a little/a bit + comparative, even/still + comparative
+• So sánh nhất: the + -est / the most, in + nhóm, of all, ever, one of the
+• So sánh bằng: as...as, not so/as...as
+• So sánh kém: less...than, the least`,
+    "Modal Verbs": `Modal verbs are auxiliary verbs that express necessity, possibility, permission, or ability.
+
+Can / Could:
+• Ability: I can swim. / I could swim when I was 5.
+• Permission: Can I go out? / Could I borrow your pen? (polite)
+• Possibility: It can be cold in winter. / It could rain later.
+
+May / Might:
+• Permission (formal): May I come in?
+• Possibility (50% or less): It may rain. / It might snow.
+
+Must / Have to:
+• Necessity/Obligation: You must wear a seatbelt. / I have to work.
+• Prohibition: You must not smoke here.
+• No necessity (don't have to): You don't have to come if you don't want.
+
+Should / Ought to:
+• Advice/Recommendation: You should see a doctor.
+• Expectation: The train should arrive soon.
+
+Will / Would:
+• Future: I will call you.
+• Requests: Would you help me?
+• Polite offers: Would you like some tea?
+
+Dấu hiệu nhận biết:
+• Can/Could: ability, permission, possibility, polite requests
+• May/Might: formal permission, possibility (~50% or less)
+• Must/Have to: obligation, necessity, strong advice, prohibition (must not)
+• Should/Ought to: advice, recommendation, expectation
+• Will/Would: future, promises, requests, polite offers
+• Needn't / Don't have to: không cần thiết (≠ must not)`,
+    "Gerunds & Infinitives": `Gerund: V-ing (functions as a noun)
+• Subject: Swimming is good exercise.
+• After prepositions: Thank you for helping me.
+• After certain verbs: enjoy, avoid, mind, suggest, quit, practice
+  - I enjoy reading. / She avoids eating junk food.
+• After go for activities: go shopping, go swimming, go running
+
+Infinitive: to + V (base verb)
+• Purpose: I called to invite you.
+• After certain verbs: want, need, hope, plan, decide, promise
+  - I want to learn English. / We plan to travel.
+• After adjectives: It's important to study. / She is happy to help.
+• After too/enough: too young to drive, old enough to vote
+
+Verbs that change meaning:
+• Remember/Forget + gerund: remembering a past action
+  - I remember locking the door. (I did it, I recall)
+• Remember/Forget + infinitive: remembering to do something
+  - Remember to lock the door. (don't forget!)
+• Stop + gerund: quit an action
+  - I stopped smoking. (I quit)
+• Stop + infinitive: pause to do something
+  - I stopped to smoke. (I paused what I was doing to smoke)
+
+Dấu hiệu nhận biết:
+• Động từ + Gerund: enjoy, avoid, mind, suggest, quit, practice, finish, consider, admit, deny, imagine, miss, risk
+• Động từ + To-infinitive: want, need, hope, plan, decide, promise, expect, agree, offer, refuse, learn, manage, afford
+• Động từ + cả hai (nghĩa thay đổi): remember, forget, stop, try, regret, go on
+• Giới từ + Gerund: interested in, good at, fond of, before, after, without, for, about
+• Cụm từ: it's worth, can't help, can't stand, look forward to, feel like, spend time, waste time`,
+    "Phrasal Verbs": `Phrasal verbs = verb + particle (preposition/adverb)
+The meaning is often different from the original verb.
+
+Types of Phrasal Verbs:
+
+1. Intransitive (no object):
+   • The plane took off. / Please sit down.
+   • The car broke down. / She showed up late.
+
+2. Separable (object can go between verb and particle):
+   • Turn off the light. / Turn the light off.
+   • Put on your coat. / Put your coat on.
+   • Take back what you said. / Take it back.
+
+3. Inseparable (object must go after the particle):
+   • Look after the children. (NOT Look the children after)
+   • I ran into an old friend. / She gets along with everyone.
+   • He takes after his father. (resembles)
+
+Common phrasal verbs:
+• Give up = quit: I gave up smoking.
+• Look up = search: Look up the word in a dictionary.
+• Put off = postpone: Don't put off your homework.
+• Get over = recover: She got over the flu.
+• Look forward to = anticipate: I look forward to meeting you.
+• Come up with = create/think of: He came up with a great idea.
+
+Dấu hiệu nhận biết:
+• Động từ + giới từ/trạng từ, nghĩa thường khác với động từ gốc
+• Có thể tách rời (separable): turn off, put on, take off, give back, throw away — danh từ có thể ở giữa hoặc sau, đại từ bắt buộc ở giữa
+• Không tách rời (inseparable): look after, run into, get along with, take after, look forward to, come up with
+• Nội động từ (không tân ngữ): grow up, show up, break down, take off (máy bay cất cánh)`,
+    "Linking Words & Connectors": `Linking words connect ideas, sentences, and paragraphs.
+
+Addition:
+• And, also, too, as well, moreover, furthermore, in addition
+  - She is smart and hardworking.
+  - Moreover, the research was thorough.
+
+Contrast:
+• But, however, although, even though, whereas, while, on the other hand
+  - Although it rained, we enjoyed the trip.
+  - He is rich whereas his brother is poor.
+
+Cause & Effect:
+• Because, since, as, therefore, consequently, thus, as a result
+  - She passed because she studied hard.
+  - The flight was delayed; therefore, we missed the connection.
+
+Purpose:
+• To, in order to, so as to, so that
+  - I study hard to get a good job.
+  - She left early so that she wouldn't be late.
+
+Sequence:
+• First, then, next, after that, finally, meanwhile, subsequently
+  - First, prepare the ingredients. Then, mix them together.
+
+Condition:
+• If, unless, provided that, as long as, in case
+  - You can go out provided that you finish your homework.
+
+Concession:
+• Although, despite, in spite of, nevertheless, nonetheless
+  - Despite the rain, we went for a walk.
+
+Dấu hiệu nhận biết:
+• Addition: besides, moreover, furthermore, in addition, not only...but also, what's more
+• Contrast: but, however, although, even though, whereas, while, on the other hand, nevertheless, nonetheless, yet
+• Cause & Effect: because, since, as, therefore, consequently, thus, hence, as a result, due to, owing to
+• Purpose: to, in order to, so as to, so that, for the purpose of
+• Sequence: first/firstly, second/secondly, then, next, after that, finally, eventually, meanwhile, subsequently
+• Condition: if, unless, provided that, as long as, in case, on condition that, otherwise
+• Concession: although, despite, in spite of, nevertheless, nonetheless, admittedly, granted that`,
+    "Inversion & Emphasis": `Inversion is used for emphasis, often in formal/academic English.
+
+After negative adverbials:
+• Never have I seen such beauty.
+• Rarely does she complain.
+• Not only did he finish, but he also excelled.
+• Under no circumstances should you lie.
+
+After "Only":
+• Only then did I understand.
+• Only by working hard can you succeed.
+
+After "So" / "Such":
+• So beautiful was the view that we stopped.
+• Such was his anger that he couldn't speak.
+
+Dấu hiệu nhận biết: các từ/cụm từ sau đây thường đứng đầu câu và gây đảo ngữ:
+• Phủ định: never, rarely, seldom, hardly, barely, scarcely, no sooner...than, not only...but also
+• Only: only then, only when, only after, only by, only if
+• So/Such: so...that, such...that
+• At no time, under no circumstances, in no way, on no account
+• Not until, not a single
+• Câu điều kiện đảo: Were I..., Had I..., Should I...`,
+    "Cleft Sentences": `Cleft sentences divide a simple sentence into two parts for emphasis.
+
+IT-cleft: It + be + emphasized part + that/who + rest
+• It was John who called you. (not someone else)
+• It is English that I want to learn. (not another language)
+• It was yesterday that she left. (not another day)
+
+WH-cleft / Pseudo-cleft:
+• What I need is a holiday.
+• What she did was quit her job.
+• The reason why he left was that he was tired.
+
+Cleft sentences are common in formal/academic English to:
+• Emphasize a specific element
+• Contrast information
+• Create a dramatic effect
+
+Dấu hiệu nhận biết: "It is/was + ... + that/who" (IT-cleft) hoặc "What + ... + is/was + ..." (WH-cleft) — dùng để nhấn mạnh một thành phần trong câu`,
+    "Mixed Conditionals": `Mixed conditionals combine different conditional types.
+
+Type 1: Past condition → Present result
+• Describes a past action that affects the present
+• If + Past Perfect (had + V3), would + V
+• If I had studied medicine, I would be a doctor now.
+  (I didn't study medicine in the past → I'm not a doctor now)
+
+Type 2: General truth → Past result
+• If + Past Simple, would have + V3
+• If I were smarter, I would have passed the exam.
+  (I'm not smart in general → I didn't pass in the past)
+
+Comparison with standard conditionals:
+• Third: If I had studied, I would have passed. (pure past)
+• Mixed: If I had studied, I would be a doctor now. (past→present)
+• Second: If I were rich, I would travel. (pure present)
+• Mixed: If I were rich, I would have bought that house. (present→past)
+
+Dấu hiệu nhận biết: kết hợp 2 mốc thời gian khác nhau trong cùng câu — mệnh đề if ở một thì (quá khứ hoặc hiện tại), mệnh đề chính ở thì khác. Phân biệt với câu điều kiện chuẩn (cùng thời gian).`,
+    "Causative Form (Have/Get Something Done)": `The causative is used when you arrange for someone else to do something for you.
+
+Have something done:
+• Subject + have + object + V3 (past participle)
+• I had my car repaired. (I paid someone to repair it)
+• She is having her hair cut. (someone is cutting it)
+• We will have the house painted next month.
+
+Get something done (more informal):
+• Subject + get + object + V3
+• I need to get my phone fixed.
+• She got her nails done yesterday.
+
+Active causative (make someone do):
+• Subject + make + person + V
+• The teacher made us rewrite the essay.
+• My mom made me clean my room.
+
+Active causative (have someone do):
+• Subject + have + person + V
+• I had the technician check my computer.
+• She had her assistant book the tickets.
+
+Common uses:
+• Services: haircut, car repair, house cleaning
+• Professional work: legal documents, medical checkups
+
+Dấu hiệu nhận biết: have/get + tân ngữ + V3 (nhờ ai làm gì) — chủ ngữ không trực tiếp làm hành động; make/have + người + V (bảo ai làm gì). Các dịch vụ thường gặp: cut hair, repair car, paint house, renew passport, clean clothes`,
+    "Participle Clauses": `Participle clauses use present (-ing) or past (-ed/-en) participles to shorten clauses.
+
+Present Participle (-ing) — active meaning:
+• Walking home, I met an old friend. (= While I was walking home...)
+• Not knowing what to do, she called for help. (= Because she didn't know...)
+• The man sitting over there is my boss. (= who is sitting...)
+
+Past Participle (V3) — passive meaning:
+• Given more time, we could have done better. (= If we were given...)
+• The book published last year became a bestseller. (= which was published...)
+• Exhausted after the long journey, he went straight to bed. (= Because he was exhausted...)
+
+Perfect Participle (Having + V3) — for earlier actions:
+• Having finished his work, he went home. (= After he had finished...)
+• Having been rejected twice, she felt discouraged. (= Because she had been rejected...)
+
+Common uses:
+• Formal writing (essays, reports, literature)
+• Reducing sentence length
+• Connecting related ideas smoothly
+
+Dấu hiệu nhận biết: mệnh đề phân từ thường đứng đầu câu hoặc sau danh từ, rút gọn từ mệnh đề trạng ngữ hoặc mệnh đề quan hệ. Chủ ngữ của mệnh đề phân từ phải đồng nhất với chủ ngữ chính.`,
+    "Wishes & Regrets": `Express wishes about the present, past, and future with different structures.
+
+Wish about the present (something is not true now):
+• Subject + wish + Subject + Past Simple
+• I wish I knew the answer. (I don't know it)
+• I wish I were taller. (I'm not tall — note: 'were' not 'was')
+• She wishes she didn't have to work. (she has to work)
+
+Wish about the past (regret about something that happened):
+• Subject + wish + Subject + Past Perfect (had + V3)
+• I wish I had studied harder. (I didn't study hard)
+• She wishes she hadn't said that. (she said it)
+• We wish we had arrived earlier. (we arrived late)
+
+Wish about the future (want something to change):
+• Subject + wish + Subject + would + V
+• I wish you would stop smoking.
+• I wish it would stop raining.
+• She wishes he would call more often.
+
+If only (stronger emphasis):
+• If only I knew the truth! (= I really wish I knew)
+• If only I had listened to your advice! (= I regret I didn't)
+• If only he would apologize! (= I want him to apologize)
+
+Should have / Could have / Might have (expressing regret):
+• I should have studied harder. (but I didn't)
+• You could have told me earlier. (but you didn't)
+• She might have asked for help. (but she didn't)
+
+Dấu hiệu nhận biết:
+• Wish + thì quá khứ: ước ở hiện tại (Past Simple), ước ở quá khứ (Past Perfect), ước ở tương lai (would + V)
+• If only: nhấn mạnh hơn wish, cùng cấu trúc
+• Should have + V3: đáng lẽ nên làm (nhưng đã không làm)
+• Could have + V3: đáng lẽ có thể (nhưng đã không)
+• Might have + V3: có lẽ đã (nhưng không chắc)
+• Would rather + thì quá khứ: muốn ai đó làm gì ở hiện tại/quá khứ`,
+    "Quantifiers & Determiners": `Quantifiers and determiners tell us how many or how much.
+
+ALL / EVERY / EACH:
+• All students must attend. (100%, group focus)
+• Every student must attend. (100%, individual focus)
+• Each student received a certificate. (one by one)
+
+BOTH / NEITHER / EITHER:
+• Both answers are correct. (two out of two)
+• Neither answer is correct. (zero out of two)
+• Either answer is fine. (one out of two)
+
+SOME / ANY / NO:
+• Some + positive: I have some friends.
+• Any + negative/question: I don't have any money.
+• No + positive verb: There is no time. (= There isn't any time)
+
+MUCH / MANY / A LOT OF:
+• Much + uncountable: How much time? (in negatives/questions)
+• Many + countable: Many people agree. (in positives)
+• A lot of + both: A lot of work / A lot of people
+
+FEW / LITTLE:
+• Few + countable: Few people came. (not many)
+• A few + countable: A few people came. (some)
+• Little + uncountable: Little time remains. (not much)
+• A little + uncountable: A little sugar, please. (some)
+
+EITHER / NEITHER of + plural noun + singular verb:
+• Either of the options is acceptable.
+• Neither of the students was late.
+
+Dấu hiệu nhận biết:
+• ALL + danh từ số nhiều/không đếm được: tất cả
+• EVERY + danh từ số ít: mọi (từng cái một)
+• EACH + danh từ số ít: mỗi (nhấn mạnh cá thể)
+• BOTH + danh từ số nhiều: cả hai
+• NEITHER + danh từ số ít: không cái nào trong hai
+• EITHER + danh từ số ít: một trong hai
+• SOME + danh từ đếm được số nhiều/không đếm được: một vài (câu khẳng định)
+• ANY + danh từ: bất kỳ (câu phủ định/nghi vấn)
+• NO + danh từ: không có
+• MANY + danh từ đếm được số nhiều: nhiều
+• MUCH + danh từ không đếm được: nhiều (thường dùng trong phủ định/nghi vấn)
+• A FEW + danh từ đếm được: một vài (đủ dùng)
+• FEW + danh từ đếm được: rất ít (không đủ)
+• A LITTLE + danh từ không đếm được: một chút (đủ dùng)
+• LITTLE + danh từ không đếm được: rất ít (không đủ)`,
+  };
+
+  for (const [title, content] of Object.entries(updates)) {
+    db.run("UPDATE grammar_lessons SET content = ? WHERE title = ?", [content, title]);
+  }
+
+  // Also update the 3 extra grammar lessons in addExtraContent
+  const extraUpdates: Record<string, string> = {
+    "Question Tags": `Question tags are short questions added to the end of a statement.
+Used to confirm information or ask for agreement.
+
+Structure:
+• Positive statement → negative tag
+  - You are tired, aren't you?
+  - She works here, doesn't she?
+  - They have finished, haven't they?
+
+• Negative statement → positive tag
+  - He isn't late, is he?
+  - You don't like coffee, do you?
+  - She hasn't arrived yet, has she?
+
+Special cases:
+• I am → aren't I? (I'm right, aren't I?)
+• Let's → shall we? (Let's go, shall we?)
+• Imperative → will/won't you? (Open the door, will you?)
+• There is → isn't there? (There is a problem, isn't there?)
+
+Intonation:
+• Rising tone → asking for confirmation (unsure)
+• Falling tone → expecting agreement (sure)
+
+Dấu hiệu nhận biết: câu hỏi đuôi luôn đi kèm dấu phẩy trước tag, động từ ở tag phải cùng thì với động từ chính. Chủ ngữ ở tag luôn là đại từ (you, he, she, it, they).`,
+    "Direct & Indirect Objects": `Verbs can have direct objects (DO) and indirect objects (IO).
+
+Direct Object (DO): receives the action directly
+• I bought a book. (What did I buy? → a book)
+• She wrote a letter. (What did she write? → a letter)
+
+Indirect Object (IO): receives the direct object
+• I bought him a book. (For whom? → him)
+• She wrote me a letter. (To whom? → me)
+
+Word order patterns:
+1. Verb + IO + DO (no preposition)
+   • He gave his mother a present.
+   • She sent her friend a postcard.
+
+2. Verb + DO + to/for + IO
+   • He gave a present to his mother.
+   • She sent a postcard to her friend.
+
+Common verbs with two objects:
+• give, send, show, tell, offer, teach, lend, sell
+• buy, make, get, cook, find, keep + for
+• explain, describe, suggest + to (NOT: explain me → explain to me)
+
+Pronoun order:
+• When both objects are pronouns: V + DO + to/for + IO
+  - I gave it to her. (NOT: I gave her it)
+
+Dấu hiệu nhận biết: các động từ đi với 2 tân ngữ: give, send, show, tell, offer, teach, lend, sell (IO đứng trước DO, hoặc DO + to + IO). Các động từ đi với for: buy, make, get, cook, find, keep (DO + for + IO). Explain, describe, suggest luôn dùng to (không có dạng V + IO + DO).`,
+    "Word Order in English Sentences": `English follows a strict word order: Subject - Verb - Object - Place - Time (SVOMPT)
+
+Basic structure:
+Subject + Verb + Object + Manner + Place + Time
+• I + met + my friend + unexpectedly + at the mall + yesterday.
+• She + drives + her car + carefully + on the highway + every morning.
+
+Adverb placement:
+1. Before the main verb (for frequency adverbs)
+   • I always wake up early.
+   • She never eats meat.
+   • They usually take the bus.
+
+2. After 'be' verbs
+   • He is always late.
+   • They are never on time.
+
+3. Between auxiliary and main verb
+   • I have never been to Japan.
+   • She will always love him.
+
+Order of adjectives (before a noun):
+Opinion → Size → Age → Shape → Color → Origin → Material → Purpose
+• a beautiful (opinion) big (size) old (age) round (shape) brown (color) Italian (origin) leather (material) handbag
+• a lovely small new wooden table
+
+Inversion in questions:
+• Yes/No: Auxiliary + Subject + V? (Do you like it?)
+• Wh-: Wh-word + Aux + S + V? (Where do you live?)
+
+Direct vs Indirect questions:
+• Direct: Where is the station?
+• Indirect: Could you tell me where the station is? (no inversion)
+
+Dấu hiệu nhận biết: trật tự SVOMPT (Subject-Verb-Object-Manner-Place-Time) luôn cố định. Frequency adverbs (always, never, usually, often, sometimes) đứng trước động từ thường nhưng sau động từ be. Câu hỏi gián tiếp không đảo ngữ. Thứ tự tính từ: OSAShCOMP (Opinion-Size-Age-Shape-Color-Origin-Material-Purpose).`,
+  };
+
+  for (const [title, content] of Object.entries(extraUpdates)) {
+    db.run("UPDATE grammar_lessons SET content = ? WHERE title = ?", [content, title]);
+  }
+
+  saveDb();
+  console.log(`Updated grammar content for ${Object.keys(updates).length + Object.keys(extraUpdates).length} lessons`);
+}
+
 async function addExtraContent() {
   const db = await getDb();
+
+  // === IRREGULAR VERBS (for existing installations) ===
+  const existingVerbs = db.exec("SELECT COUNT(*) as c FROM irregular_verbs");
+  if (!existingVerbs[0]?.values[0]?.[0]) {
+    const irregularVerbs = [
+      { base: "arise", past: "arose", pp: "arisen", meaning: "phát sinh, nảy sinh", example: "A new problem has arisen." },
+      { base: "awake", past: "awoke", pp: "awoken", meaning: "thức dậy", example: "I awoke at 6 AM this morning." },
+      { base: "be", past: "was/were", pp: "been", meaning: "thì, là, ở", example: "I have been to Hanoi." },
+      { base: "bear", past: "bore", pp: "borne", meaning: "mang, chịu đựng", example: "She has borne the pain bravely." },
+      { base: "beat", past: "beat", pp: "beaten", meaning: "đánh, đập", example: "He was beaten in the final match." },
+      { base: "become", past: "became", pp: "become", meaning: "trở nên", example: "She became a teacher." },
+      { base: "begin", past: "began", pp: "begun", meaning: "bắt đầu", example: "The meeting has begun." },
+      { base: "bend", past: "bent", pp: "bent", meaning: "uốn cong", example: "He bent down to pick up the coin." },
+      { base: "bet", past: "bet", pp: "bet", meaning: "cá cược", example: "I bet you can't do it." },
+      { base: "bid", past: "bid", pp: "bid", meaning: "đấu giá", example: "She bid $100 for the painting." },
+      { base: "bind", past: "bound", pp: "bound", meaning: "buộc, ràng buộc", example: "They are bound by the contract." },
+      { base: "bite", past: "bit", pp: "bitten", meaning: "cắn", example: "The dog has bitten him." },
+      { base: "bleed", past: "bled", pp: "bled", meaning: "chảy máu", example: "His nose bled heavily." },
+      { base: "blow", past: "blew", pp: "blown", meaning: "thổi", example: "The wind has blown the leaves away." },
+      { base: "break", past: "broke", pp: "broken", meaning: "làm vỡ, phá vỡ", example: "She broke the vase." },
+      { base: "bring", past: "brought", pp: "brought", meaning: "mang đến", example: "He brought his friend to the party." },
+      { base: "build", past: "built", pp: "built", meaning: "xây dựng", example: "They built a new house." },
+      { base: "burn", past: "burnt/burned", pp: "burnt/burned", meaning: "đốt cháy", example: "The paper burned quickly." },
+      { base: "burst", past: "burst", pp: "burst", meaning: "nổ tung", example: "The balloon burst." },
+      { base: "buy", past: "bought", pp: "bought", meaning: "mua", example: "I bought a new car." },
+      { base: "cast", past: "cast", pp: "cast", meaning: "ném, đúc", example: "He cast the net into the sea." },
+      { base: "catch", past: "caught", pp: "caught", meaning: "bắt, chụp", example: "She caught the ball." },
+      { base: "choose", past: "chose", pp: "chosen", meaning: "chọn", example: "I have chosen the blue one." },
+      { base: "cling", past: "clung", pp: "clung", meaning: "bám vào", example: "The child clung to his mother." },
+      { base: "come", past: "came", pp: "come", meaning: "đến", example: "She came to the party." },
+      { base: "cost", past: "cost", pp: "cost", meaning: "có giá là", example: "This book cost $20." },
+      { base: "creep", past: "crept", pp: "crept", meaning: "bò, trườn", example: "The cat crept toward the mouse." },
+      { base: "cut", past: "cut", pp: "cut", meaning: "cắt", example: "He cut the paper." },
+      { base: "deal", past: "dealt", pp: "dealt", meaning: "giải quyết", example: "She dealt with the problem." },
+      { base: "dig", past: "dug", pp: "dug", meaning: "đào", example: "They dug a hole in the garden." },
+      { base: "do", past: "did", pp: "done", meaning: "làm", example: "I have done my homework." },
+      { base: "draw", past: "drew", pp: "drawn", meaning: "vẽ", example: "She drew a beautiful picture." },
+      { base: "dream", past: "dreamt/dreamed", pp: "dreamt/dreamed", meaning: "mơ", example: "I dreamt of you last night." },
+      { base: "drink", past: "drank", pp: "drunk", meaning: "uống", example: "He drank all the water." },
+      { base: "drive", past: "drove", pp: "driven", meaning: "lái xe", example: "She has driven for 10 years." },
+      { base: "eat", past: "ate", pp: "eaten", meaning: "ăn", example: "We ate lunch at noon." },
+      { base: "fall", past: "fell", pp: "fallen", meaning: "ngã, rơi", example: "The leaves have fallen." },
+      { base: "feed", past: "fed", pp: "fed", meaning: "cho ăn", example: "She fed the cat." },
+      { base: "feel", past: "felt", pp: "felt", meaning: "cảm thấy", example: "I felt happy yesterday." },
+      { base: "fight", past: "fought", pp: "fought", meaning: "chiến đấu", example: "They fought bravely." },
+      { base: "find", past: "found", pp: "found", meaning: "tìm thấy", example: "I found my keys." },
+      { base: "flee", past: "fled", pp: "fled", meaning: "chạy trốn", example: "The enemy fled." },
+      { base: "fly", past: "flew", pp: "flown", meaning: "bay", example: "The bird has flown away." },
+      { base: "forbid", past: "forbade", pp: "forbidden", meaning: "cấm", example: "Smoking is forbidden here." },
+      { base: "forget", past: "forgot", pp: "forgotten", meaning: "quên", example: "I forgot her name." },
+      { base: "forgive", past: "forgave", pp: "forgiven", meaning: "tha thứ", example: "She forgave him." },
+      { base: "freeze", past: "froze", pp: "frozen", meaning: "đóng băng", example: "The water froze overnight." },
+      { base: "get", past: "got", pp: "got/gotten", meaning: "có được, nhận", example: "I got a present from my mom." },
+      { base: "give", past: "gave", pp: "given", meaning: "cho, tặng", example: "She gave me a book." },
+      { base: "go", past: "went", pp: "gone", meaning: "đi", example: "They have gone to the store." },
+      { base: "grow", past: "grew", pp: "grown", meaning: "phát triển, trồng", example: "The plant has grown tall." },
+      { base: "hang", past: "hung", pp: "hung", meaning: "treo", example: "She hung the picture on the wall." },
+      { base: "have", past: "had", pp: "had", meaning: "có", example: "I have had breakfast." },
+      { base: "hear", past: "heard", pp: "heard", meaning: "nghe", example: "I heard a strange noise." },
+      { base: "hide", past: "hid", pp: "hidden", meaning: "giấu, trốn", example: "The child hid behind the door." },
+      { base: "hit", past: "hit", pp: "hit", meaning: "đánh, đập", example: "He hit the ball hard." },
+      { base: "hold", past: "held", pp: "held", meaning: "cầm, tổ chức", example: "She held my hand tightly." },
+      { base: "hurt", past: "hurt", pp: "hurt", meaning: "làm đau", example: "I hurt my leg." },
+      { base: "keep", past: "kept", pp: "kept", meaning: "giữ", example: "She kept the secret." },
+      { base: "kneel", past: "knelt", pp: "knelt", meaning: "quỳ", example: "He knelt down to pray." },
+      { base: "know", past: "knew", pp: "known", meaning: "biết", example: "I have known her for years." },
+      { base: "lay", past: "laid", pp: "laid", meaning: "đặt, để", example: "She laid the book on the table." },
+      { base: "lead", past: "led", pp: "led", meaning: "dẫn dắt", example: "He led the team to victory." },
+      { base: "lean", past: "leant/leaned", pp: "leant/leaned", meaning: "dựa vào", example: "She leant against the wall." },
+      { base: "leap", past: "leapt/leaped", pp: "leapt/leaped", meaning: "nhảy", example: "The cat leapt onto the roof." },
+      { base: "learn", past: "learnt/learned", pp: "learnt/learned", meaning: "học", example: "I learnt English at school." },
+      { base: "leave", past: "left", pp: "left", meaning: "rời đi", example: "She left the office at 5 PM." },
+      { base: "lend", past: "lent", pp: "lent", meaning: "cho mượn", example: "He lent me his car." },
+      { base: "let", past: "let", pp: "let", meaning: "cho phép", example: "Let me help you." },
+      { base: "lie", past: "lay", pp: "lain", meaning: "nằm", example: "He lay on the bed." },
+      { base: "light", past: "lit", pp: "lit", meaning: "thắp sáng", example: "She lit the candle." },
+      { base: "lose", past: "lost", pp: "lost", meaning: "mất, thua", example: "I lost my wallet." },
+      { base: "make", past: "made", pp: "made", meaning: "làm, chế tạo", example: "She made a cake." },
+      { base: "mean", past: "meant", pp: "meant", meaning: "có nghĩa là", example: "What did you mean?" },
+      { base: "meet", past: "met", pp: "met", meaning: "gặp", example: "I met my friend yesterday." },
+      { base: "pay", past: "paid", pp: "paid", meaning: "trả tiền", example: "She paid the bill." },
+      { base: "put", past: "put", pp: "put", meaning: "đặt", example: "Put the book on the shelf." },
+      { base: "quit", past: "quit", pp: "quit", meaning: "từ bỏ", example: "He quit his job." },
+      { base: "read", past: "read", pp: "read", meaning: "đọc", example: "I have read that book." },
+      { base: "ride", past: "rode", pp: "ridden", meaning: "cưỡi, đi (xe)", example: "She rode a horse." },
+      { base: "ring", past: "rang", pp: "rung", meaning: "reo, gọi điện", example: "The phone rang." },
+      { base: "rise", past: "rose", pp: "risen", meaning: "mọc, tăng lên", example: "The sun rises in the east." },
+      { base: "run", past: "ran", pp: "run", meaning: "chạy", example: "He ran very fast." },
+      { base: "say", past: "said", pp: "said", meaning: "nói", example: "She said hello to me." },
+      { base: "see", past: "saw", pp: "seen", meaning: "thấy", example: "I have seen that movie." },
+      { base: "seek", past: "sought", pp: "sought", meaning: "tìm kiếm", example: "They sought shelter from the rain." },
+      { base: "sell", past: "sold", pp: "sold", meaning: "bán", example: "He sold his old car." },
+      { base: "send", past: "sent", pp: "sent", meaning: "gửi", example: "I sent you an email." },
+      { base: "set", past: "set", pp: "set", meaning: "đặt, thiết lập", example: "She set the table for dinner." },
+      { base: "shake", past: "shook", pp: "shaken", meaning: "lắc", example: "He shook my hand." },
+      { base: "shine", past: "shone", pp: "shone", meaning: "chiếu sáng", example: "The sun shone brightly." },
+      { base: "shoot", past: "shot", pp: "shot", meaning: "bắn", example: "He shot the target." },
+      { base: "show", past: "showed", pp: "shown", meaning: "cho xem", example: "She showed me the photo." },
+      { base: "shrink", past: "shrank", pp: "shrunk", meaning: "co lại", example: "The shirt shrank in the wash." },
+      { base: "shut", past: "shut", pp: "shut", meaning: "đóng", example: "Please shut the door." },
+      { base: "sing", past: "sang", pp: "sung", meaning: "hát", example: "She sang a beautiful song." },
+      { base: "sink", past: "sank", pp: "sunk", meaning: "chìm", example: "The ship sank." },
+      { base: "sit", past: "sat", pp: "sat", meaning: "ngồi", example: "Please sit down." },
+      { base: "sleep", past: "slept", pp: "slept", meaning: "ngủ", example: "I slept well last night." },
+      { base: "slide", past: "slid", pp: "slid", meaning: "trượt", example: "The kids slid down the hill." },
+      { base: "speak", past: "spoke", pp: "spoken", meaning: "nói", example: "She spoke English fluently." },
+      { base: "spend", past: "spent", pp: "spent", meaning: "tiêu, dành", example: "I spent all my money." },
+      { base: "spit", past: "spat", pp: "spat", meaning: "nhổ", example: "He spat on the ground." },
+      { base: "split", past: "split", pp: "split", meaning: "chia tách", example: "They split the bill." },
+      { base: "spread", past: "spread", pp: "spread", meaning: "lan truyền", example: "The news spread quickly." },
+      { base: "spring", past: "sprang", pp: "sprung", meaning: "nhảy vọt", example: "He sprang out of bed." },
+      { base: "stand", past: "stood", pp: "stood", meaning: "đứng", example: "Everyone stood up." },
+      { base: "steal", past: "stole", pp: "stolen", meaning: "ăn cắp", example: "Someone stole my bike." },
+      { base: "stick", past: "stuck", pp: "stuck", meaning: "dán, mắc kẹt", example: "The key stuck in the lock." },
+      { base: "sting", past: "stung", pp: "stung", meaning: "đốt, châm", example: "A bee stung him." },
+      { base: "strike", past: "struck", pp: "struck", meaning: "đánh, đình công", example: "The clock struck midnight." },
+      { base: "swear", past: "swore", pp: "sworn", meaning: "thề", example: "He swore to tell the truth." },
+      { base: "sweep", past: "swept", pp: "swept", meaning: "quét", example: "She swept the floor." },
+      { base: "swim", past: "swam", pp: "swum", meaning: "bơi", example: "We swam in the lake." },
+      { base: "take", past: "took", pp: "taken", meaning: "lấy", example: "Take a seat, please." },
+      { base: "teach", past: "taught", pp: "taught", meaning: "dạy", example: "She taught me English." },
+      { base: "tear", past: "tore", pp: "torn", meaning: "xé", example: "He tore the paper in half." },
+      { base: "tell", past: "told", pp: "told", meaning: "kể, bảo", example: "Tell me a story." },
+      { base: "think", past: "thought", pp: "thought", meaning: "nghĩ", example: "I think it's a good idea." },
+      { base: "throw", past: "threw", pp: "thrown", meaning: "ném", example: "He threw the ball." },
+      { base: "understand", past: "understood", pp: "understood", meaning: "hiểu", example: "I understood the lesson." },
+      { base: "wake", past: "woke", pp: "woken", meaning: "đánh thức", example: "I woke up at 7 AM." },
+      { base: "wear", past: "wore", pp: "worn", meaning: "mặc", example: "She wore a red dress." },
+      { base: "weep", past: "wept", pp: "wept", meaning: "khóc", example: "She wept for hours." },
+      { base: "win", past: "won", pp: "won", meaning: "thắng", example: "Our team won the match." },
+      { base: "wind", past: "wound", pp: "wound", meaning: "quấn, lên dây", example: "She wound the clock." },
+      { base: "withdraw", past: "withdrew", pp: "withdrawn", meaning: "rút tiền", example: "I withdrew $100 from the bank." },
+      { base: "write", past: "wrote", pp: "written", meaning: "viết", example: "She wrote a letter." },
+    ];
+    for (const v of irregularVerbs) {
+      db.run(
+        "INSERT INTO irregular_verbs (base_form, past_simple, past_participle, meaning, example) VALUES (?, ?, ?, ?, ?)",
+        [v.base, v.past, v.pp, v.meaning, v.example]
+      );
+    }
+    saveDb();
+    console.log(`Added ${irregularVerbs.length} irregular verbs`);
+  }
+
   // Check if we already added extra content by looking for one of the new topics
   const existing = db.exec("SELECT id FROM vocabulary_topics WHERE name = ?", ["Clothes & Fashion"]);
   if (existing.length && existing[0].values.length) return;
@@ -314,7 +1175,9 @@ Special cases:
 
 Intonation:
 • Rising tone → asking for confirmation (unsure)
-• Falling tone → expecting agreement (sure)`,
+• Falling tone → expecting agreement (sure)
+
+Dấu hiệu nhận biết: câu hỏi đuôi luôn đi kèm dấu phẩy trước tag, động từ ở tag phải cùng thì với động từ chính. Chủ ngữ ở tag luôn là đại từ (you, he, she, it, they).`,
       level: "intermediate",
       category: "Grammar",
       order_index: nextOrder,
@@ -353,7 +1216,9 @@ Common verbs with two objects:
 
 Pronoun order:
 • When both objects are pronouns: V + DO + to/for + IO
-  - I gave it to her. (NOT: I gave her it)`,
+  - I gave it to her. (NOT: I gave her it)
+
+Dấu hiệu nhận biết: các động từ đi với 2 tân ngữ: give, send, show, tell, offer, teach, lend, sell (IO đứng trước DO, hoặc DO + to + IO). Các động từ đi với for: buy, make, get, cook, find, keep (DO + for + IO). Explain, describe, suggest luôn dùng to (không có dạng V + IO + DO).`,
       level: "intermediate",
       category: "Grammar",
       order_index: nextOrder + 1,
@@ -398,7 +1263,9 @@ Inversion in questions:
 
 Direct vs Indirect questions:
 • Direct: Where is the station?
-• Indirect: Could you tell me where the station is? (no inversion)`,
+• Indirect: Could you tell me where the station is? (no inversion)
+
+Dấu hiệu nhận biết: trật tự SVOMPT (Subject-Verb-Object-Manner-Place-Time) luôn cố định. Frequency adverbs (always, never, usually, often, sometimes) đứng trước động từ thường nhưng sau động từ be. Câu hỏi gián tiếp không đảo ngữ. Thứ tự tính từ: OSAShCOMP (Opinion-Size-Age-Shape-Color-Origin-Material-Purpose).`,
       level: "advanced",
       category: "Grammar",
       order_index: nextOrder + 2,
@@ -500,6 +1367,7 @@ async function start() {
     await runSeed();
   }
   await addExtraContent();
+  await updateGrammarContent();
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`EngZone running on http://localhost:${PORT} (LAN: http://192.168.1.x:${PORT})`);
   });
