@@ -343,7 +343,7 @@ async function seed() {
   // === GRAMMAR LESSONS ===
   const grammarLessons = [
     {
-      title: "Present Simple Tense",
+      title: "Hiện tại đơn (Present Simple)",
       content: `The Present Simple is used for:
 • Facts and general truths (The sun rises in the east)
 • Habits and routines (I wake up at 7 AM)
@@ -371,7 +371,7 @@ Dấu hiệu nhận biết: always, usually, often, sometimes, seldom, rarely, n
       ]
     },
     {
-      title: "Present Continuous Tense",
+      title: "Hiện tại tiếp diễn (Present Continuous)",
       content: `The Present Continuous is used for:
 • Actions happening now (I am reading now)
 • Temporary situations (She is staying with friends)
@@ -392,7 +392,7 @@ Dấu hiệu nhận biết: now, right now, at the moment, at present, today, th
       ]
     },
     {
-      title: "Past Simple vs Present Perfect",
+      title: "Quá khứ đơn & Hiện tại hoàn thành (Past Simple vs Present Perfect)",
       content: `Past Simple:
 • Completed action at a specific past time
 • Structure: Subject + V2 (ed/irregular)
@@ -415,7 +415,7 @@ Present Perfect:
       ]
     },
     {
-      title: "Conditional Sentences (If-clauses)",
+      title: "Câu điều kiện (Conditional Sentences)",
       content: `Zero Conditional (General truth):
 • If + Present Simple, Present Simple
 • If you heat ice, it melts.
@@ -443,7 +443,7 @@ Dấu hiệu nhận biết: if, unless, provided (that), as long as, in case, ev
       ]
     },
     {
-      title: "Passive Voice",
+      title: "Câu bị động (Passive Voice)",
       content: `The Passive Voice is used when:
 • The action is more important than the doer
 • The doer is unknown or obvious
@@ -469,7 +469,7 @@ Dấu hiệu nhận biết: chủ ngữ không xác định hoặc không quan t
       ]
     },
     {
-      title: "Reported Speech",
+      title: "Câu tường thuật (Reported Speech)",
       content: `Reported Speech is used to report what someone said without quoting directly.
 
 Key changes when reporting:
@@ -498,7 +498,7 @@ Dấu hiệu nhận biết: các động từ tường thuật (reporting verbs)
       ]
     },
     {
-      title: "Subjunctive Mood",
+      title: "Thể giả định (Subjunctive Mood)",
       content: `The Subjunctive Mood is used for:
 • Wishes (I wish I were...)
 • Suggestions (I suggest that he study...)
@@ -521,7 +521,7 @@ Dấu hiệu nhận biết: wish, if only, would rather, as if/as though, sugges
       ]
     },
     {
-      title: "Future Tenses",
+      title: "Thì tương lai (Future Tenses)",
       content: `Four main ways to talk about the future:
 
 1. Will + V (Predictions, spontaneous decisions, promises)
@@ -565,7 +565,7 @@ Dấu hiệu nhận biết:
       ]
     },
     {
-      title: "Past Continuous & Past Perfect",
+      title: "Quá khứ tiếp diễn & Quá khứ hoàn thành (Past Continuous & Past Perfect)",
       content: `Past Continuous: was/were + V-ing
 • Actions in progress at a specific past time
   - I was watching TV at 8 PM last night.
@@ -599,7 +599,7 @@ Dấu hiệu nhận biết:
       ]
     },
     {
-      title: "Articles: A/An/The",
+      title: "Mạo từ (Articles: A/An/The)",
       content: `Articles are used before nouns.
 
 Indefinite Articles (A/An):
@@ -639,7 +639,7 @@ Dấu hiệu nhận biết:
       ]
     },
     {
-      title: "Prepositions of Time & Place",
+      title: "Giới từ chỉ thời gian & nơi chốn (Prepositions of Time & Place)",
       content: `Prepositions of Time:
 
 AT: specific times, holidays, night
@@ -688,7 +688,7 @@ Dấu hiệu nhận biết:
       ]
     },
     {
-      title: "Relative Clauses",
+      title: "Mệnh đề quan hệ (Relative Clauses)",
       content: `Relative clauses give more information about a noun.
 
 Defining Relative Clauses (essential information):
@@ -719,7 +719,7 @@ Dấu hiệu nhận biết: who (người), which (vật), that (cả người v
       ]
     },
     {
-      title: "Comparatives & Superlatives",
+      title: "So sánh hơn & so sánh nhất (Comparatives & Superlatives)",
       content: `Used to compare things.
 
 Comparatives (comparing two things):
@@ -762,7 +762,7 @@ Dấu hiệu nhận biết:
       ]
     },
     {
-      title: "Modal Verbs",
+      title: "Động từ khiếm khuyết (Modal Verbs)",
       content: `Modal verbs are auxiliary verbs that express necessity, possibility, permission, or ability.
 
 Can / Could:
@@ -806,7 +806,7 @@ Dấu hiệu nhận biết:
       ]
     },
     {
-      title: "Gerunds & Infinitives",
+      title: "Danh động từ & Động từ nguyên mẫu (Gerunds & Infinitives)",
       content: `Gerund: V-ing (functions as a noun)
 • Subject: Swimming is good exercise.
 • After prepositions: Thank you for helping me.
@@ -848,7 +848,7 @@ Dấu hiệu nhận biết:
       ]
     },
     {
-      title: "Phrasal Verbs",
+      title: "Cụm động từ (Phrasal Verbs)",
       content: `Phrasal verbs = verb + particle (preposition/adverb)
 The meaning is often different from the original verb.
 
@@ -892,7 +892,7 @@ Dấu hiệu nhận biết:
       ]
     },
     {
-      title: "Linking Words & Connectors",
+      title: "Từ nối (Linking Words & Connectors)",
       content: `Linking words connect ideas, sentences, and paragraphs.
 
 Addition:
@@ -946,7 +946,7 @@ Dấu hiệu nhận biết:
       ]
     },
     {
-      title: "Inversion & Emphasis",
+      title: "Đảo ngữ & Nhấn mạnh (Inversion & Emphasis)",
       content: `Inversion is used for emphasis, often in formal/academic English.
 
 After negative adverbials:
@@ -981,7 +981,7 @@ Dấu hiệu nhận biết: các từ/cụm từ sau đây thường đứng đ�
     },
     // === NEW ADVANCED LESSONS ===
     {
-      title: "Cleft Sentences",
+      title: "Câu chẻ (Cleft Sentences)",
       content: `Cleft sentences divide a simple sentence into two parts for emphasis.
 
 IT-cleft: It + be + emphasized part + that/who + rest
@@ -1010,7 +1010,7 @@ Dấu hiệu nhận biết: "It is/was + ... + that/who" (IT-cleft) hoặc "What
       ]
     },
     {
-      title: "Mixed Conditionals",
+      title: "Câu điều kiện hỗn hợp (Mixed Conditionals)",
       content: `Mixed conditionals combine different conditional types.
 
 Type 1: Past condition → Present result
@@ -1041,7 +1041,7 @@ Dấu hiệu nhận biết: kết hợp 2 mốc thời gian khác nhau trong cù
       ]
     },
     {
-      title: "Causative Form (Have/Get Something Done)",
+      title: "Thể sai khiến (Causative Form)",
       content: `The causative is used when you arrange for someone else to do something for you.
 
 Have something done:
@@ -1080,7 +1080,7 @@ Dấu hiệu nhận biết: have/get + tân ngữ + V3 (nhờ ai làm gì) — c
       ]
     },
     {
-      title: "Participle Clauses",
+      title: "Mệnh đề phân từ (Participle Clauses)",
       content: `Participle clauses use present (-ing) or past (-ed/-en) participles to shorten clauses.
 
 Present Participle (-ing) — active meaning:
@@ -1113,7 +1113,7 @@ Dấu hiệu nhận biết: mệnh đề phân từ thường đứng đầu câ
       ]
     },
     {
-      title: "Wishes & Regrets",
+      title: "Câu ước & Sự hối tiếc (Wishes & Regrets)",
       content: `Express wishes about the present, past, and future with different structures.
 
 Wish about the present (something is not true now):
@@ -1161,7 +1161,7 @@ Dấu hiệu nhận biết:
       ]
     },
     {
-      title: "Quantifiers & Determiners",
+      title: "Lượng từ & Định từ (Quantifiers & Determiners)",
       content: `Quantifiers and determiners tell us how many or how much.
 
 ALL / EVERY / EACH:
