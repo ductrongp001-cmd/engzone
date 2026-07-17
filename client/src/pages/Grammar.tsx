@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/auth";
 import { api } from "../api";
+import SpeakButton from "../components/SpeakButton";
 import type { GrammarLesson } from "../types";
 
 const levelColors: Record<string, string> = {
@@ -71,11 +72,11 @@ export default function Grammar() {
             <div className="examples-section">
               <h3>Ví dụ</h3>
               {selected.examples.map((ex, i) => (
-                <div key={i} className="example-card">
-                  <p className="example-sentence">{ex.sentence}</p>
-                  <p className="example-translation">{ex.translation}</p>
-                  <p className="example-explanation">{ex.explanation}</p>
-                </div>
+                  <div key={i} className="example-card">
+                    <p className="example-sentence"><SpeakButton text={ex.sentence} />{ex.sentence}</p>
+                    <p className="example-translation">{ex.translation}</p>
+                    <p className="example-explanation">{ex.explanation}</p>
+                  </div>
               ))}
             </div>
           )}

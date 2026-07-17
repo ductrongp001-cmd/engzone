@@ -245,6 +245,25 @@ body {
   margin-top: 1.5rem;
 }
 
+.speak-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  transition: background 0.15s;
+  line-height: 1;
+}
+
+.speak-btn:hover {
+  background: #e2e8f0;
+}
+
+.dark .speak-btn:hover {
+  background: #334155;
+}
+
 .word-card {
   background: #fff;
   padding: 1rem 1.2rem;
@@ -356,6 +375,90 @@ body {
   border-left: 3px solid #4f46e5;
 }
 
+.stress-rule {
+  background: #f0f4ff;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  border-left: 4px solid #7c3aed;
+}
+
+.stress-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.stress-table th,
+.stress-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.stress-table th {
+  background: #f1f5f9;
+  font-weight: 600;
+  color: #475569;
+}
+
+.stress-table tr:hover {
+  background: #f8fafc;
+}
+
+.stress-word {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.stress-phonetic {
+  font-family: monospace;
+  color: #64748b;
+}
+
+.stress-part {
+  font-weight: 700;
+  color: #7c3aed;
+}
+
+.stress-explanation {
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.dark .stress-rule {
+  background: #1e1e2e;
+  border-left-color: #a78bfa;
+}
+
+.dark .stress-table th {
+  background: #1e1e2e;
+  color: #94a3b8;
+  border-bottom-color: #334155;
+}
+
+.dark .stress-table td {
+  border-bottom-color: #334155;
+}
+
+.dark .stress-table tr:hover {
+  background: #1a1a2e;
+}
+
+.dark .stress-word {
+  color: #e2e8f0;
+}
+
+.dark .stress-phonetic {
+  color: #94a3b8;
+}
+
+.dark .stress-explanation {
+  color: #94a3b8;
+}
+
 .example-sentence {
   font-weight: 600;
   color: #1e293b;
@@ -393,6 +496,17 @@ body {
 .diff-tab.active {
   color: #fff;
   border-color: transparent;
+}
+
+.stress-counter {
+  text-align: center;
+  color: #64748b;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.dark .stress-counter {
+  color: #94a3b8;
 }
 
 .exercise-card {
@@ -447,6 +561,19 @@ body {
 
 .ex-option input {
   accent-color: #4f46e5;
+}
+
+button.ex-option {
+  width: 100%;
+  font: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  background: transparent;
+}
+
+button.ex-option:disabled {
+  cursor: default;
+  opacity: 1;
 }
 
 .ex-input {

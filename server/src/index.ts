@@ -10,6 +10,7 @@ import exercisesRoutes from "./routes/exercises";
 import progressRoutes from "./routes/progress";
 import adminRoutes from "./routes/admin";
 import irregularVerbsRoutes from "./routes/irregular-verbs";
+import stressRoutes from "./routes/stress";
  
 const app = express();
 const PORT = parseInt(process.env.PORT || "3001");
@@ -24,6 +25,7 @@ app.use("/api/exercises", exercisesRoutes);
 app.use("/api/progress", progressRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/irregular-verbs", irregularVerbsRoutes);
+app.use("/api/stress", stressRoutes);
 
 app.get("/api/translate/:word", async (req, res) => {
   const word = req.params.word.trim().toLowerCase();
@@ -1601,6 +1603,11 @@ async function start() {
   await fixOrderIndexes();
   await translateGrammarTitles();
   await updateGrammarContent();
+  const stressCount = db.exec("SELECT COUNT(*) as c FROM stress_rules");
+  if (!stressCount[0]?.values[0]?.[0]) {
+    const { seedStress } = await import("./seed");
+    await seedStress();
+  }
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`EngZone running on http://localhost:${PORT} (LAN: http://192.168.1.x:${PORT})`);
   });

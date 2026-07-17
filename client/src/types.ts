@@ -83,3 +83,22 @@ export interface AdminStats {
   exercises: number;
   users: number;
 }
+
+export interface StressRule {
+  id: number;
+  title: string;
+  description: string;
+  rule: string;
+  level: string;
+  order_index: number;
+  examples?: StressExample[];
+}
+
+export interface StressExample {
+  id: number;
+  rule_id: number;
+  word: string;
+  phonetic: string;
+  stressed_part: string;
+  explanation: string;
+}

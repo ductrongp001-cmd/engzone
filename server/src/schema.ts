@@ -119,4 +119,27 @@ export async function initSchema() {
       cached_at TEXT DEFAULT (datetime('now'))
     )
   `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS stress_rules (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      description TEXT,
+      rule TEXT NOT NULL,
+      level TEXT DEFAULT 'intermediate',
+      order_index INTEGER DEFAULT 0
+    )
+  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS stress_examples (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      rule_id INTEGER NOT NULL,
+      word TEXT NOT NULL,
+      phonetic TEXT,
+      stressed_part TEXT,
+      explanation TEXT,
+      FOREIGN KEY (rule_id) REFERENCES stress_rules(id)
+    )
+  `);
 }

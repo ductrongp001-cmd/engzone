@@ -8,6 +8,8 @@ const links = [
   { to: "/grammar", label: "Ngữ pháp" },
   { to: "/exercises", label: "Bài tập" },
   { to: "/irregular-verbs", label: "Động từ bất quy tắc" },
+  { to: "/stress-rules", label: "Trọng âm" },
+  { to: "/stress-exercise", label: "Luyện trọng âm" },
   { to: "/progress", label: "Tiến độ" },
   { to: "/dictionary", label: "Từ điển" },
   { to: "/flashcard", label: "Flashcard" },

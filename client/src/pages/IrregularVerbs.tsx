@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../api";
+import SpeakButton from "../components/SpeakButton";
 import type { IrregularVerb } from "../types";
 
 export default function IrregularVerbs() {
@@ -80,9 +81,9 @@ export default function IrregularVerbs() {
               <>
                 <tr key={v.id} className="irregular-row" onClick={() => toggleExpand(v.id)}>
                   <td className="irregular-num">{i + 1}</td>
-                  <td className="irregular-base">{v.base_form}</td>
-                  <td className="irregular-past">{v.past_simple}</td>
-                  <td className="irregular-pp">{v.past_participle}</td>
+                  <td className="irregular-base">{v.base_form} <SpeakButton text={v.base_form} /></td>
+                  <td className="irregular-past">{v.past_simple} <SpeakButton text={v.past_simple} /></td>
+                  <td className="irregular-pp">{v.past_participle} <SpeakButton text={v.past_participle} /></td>
                   <td className="irregular-meaning">{v.meaning}</td>
                   <td className="irregular-expand">{expanded.has(v.id) ? "▲" : "▼"}</td>
                 </tr>
@@ -90,7 +91,7 @@ export default function IrregularVerbs() {
                   <tr key={`${v.id}-ex`} className="irregular-ex-row">
                     <td colSpan={6}>
                       <div className="irregular-example">
-                        <strong>Ví dụ:</strong> <em>{v.example}</em>
+                        <strong>Ví dụ:</strong> <SpeakButton text={v.example} /> <em>{v.example}</em>
                       </div>
                     </td>
                   </tr>

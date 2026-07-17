@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/auth";
 import { api } from "../api";
+import SpeakButton from "../components/SpeakButton";
 import type { Topic, Word } from "../types";
 
 const levelColors: Record<string, string> = {
@@ -92,12 +93,13 @@ export default function Vocabulary() {
               <div key={w.id} className="word-card">
                 <div className="word-header">
                   <strong className="word-text">{w.word}</strong>
+                  <SpeakButton text={w.word} />
                   <span className="phonetic">{w.phonetic}</span>
                   <span className="pos">{w.part_of_speech}</span>
                   <span className="vocab-topic-tag">{w.topic_name}</span>
                 </div>
                 <p className="word-meaning">{w.meaning}</p>
-                {w.example && <p className="word-example"><em>{w.example}</em></p>}
+                {w.example && <p className="word-example"><SpeakButton text={w.example} /><em>{w.example}</em></p>}
               </div>
             ))}
           </div>
@@ -132,11 +134,12 @@ export default function Vocabulary() {
               <div key={w.id} className="word-card">
                 <div className="word-header">
                   <strong className="word-text">{w.word}</strong>
+                  <SpeakButton text={w.word} />
                   <span className="phonetic">{w.phonetic}</span>
                   <span className="pos">{w.part_of_speech}</span>
                 </div>
                 <p className="word-meaning">{w.meaning}</p>
-                <p className="word-example"><em>{w.example}</em></p>
+                <p className="word-example"><SpeakButton text={w.example} /><em>{w.example}</em></p>
               </div>
             ))}
           </div>
