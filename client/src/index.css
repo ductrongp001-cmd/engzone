@@ -184,6 +184,7 @@ body {
   background: #fff;
   padding: 1.2rem;
   border: 1px solid #e2e8f0;
+  border-left: 4px solid #4f46e5;
   border-radius: 10px;
   text-align: left;
   cursor: pointer;
@@ -319,6 +320,7 @@ body {
   background: #fff;
   padding: 1rem 1.2rem;
   border: 1px solid #e2e8f0;
+  border-left: 4px solid #4f46e5;
   border-radius: 8px;
   text-align: left;
   cursor: pointer;
@@ -372,7 +374,7 @@ body {
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 0.8rem;
-  border-left: 3px solid #4f46e5;
+  border-left: 3px solid;
 }
 
 .stress-rule {
@@ -519,8 +521,10 @@ body {
 
 .ex-question {
   font-weight: 600;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.75rem;
   font-size: 1rem;
+  line-height: 1.6;
+  color: #1e293b;
 }
 
 .ex-options {
@@ -1536,6 +1540,203 @@ button.ex-option:disabled {
 .dark .flashcard-topic-btn.selected { border-color: #818cf8; background: #1e1b4b; color: #a5b4fc; }
 .dark .flashcard-done p { color: #94a3b8; }
 
+/* GAMES */
+.game-flashcard {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 3/4;
+  perspective: 800px;
+  cursor: pointer;
+}
+
+.game-flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+}
+
+.game-flashcard-inner.flipped { transform: rotateY(180deg); }
+
+.game-flashcard-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #e0e7ff, #fff);
+  border: 2px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.game-flashcard-back { transform: rotateY(180deg); }
+
+.game-flashcard-word {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #4f46e5;
+  text-align: center;
+}
+
+.game-flashcard-phonetic {
+  font-size: 0.95rem;
+  color: #64748b;
+}
+
+.game-flashcard-meaning {
+  font-size: 1.2rem;
+  color: #1e293b;
+  text-align: center;
+}
+
+.game-flashcard-example {
+  font-size: 0.85rem;
+  color: #64748b;
+  text-align: center;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.game-scramble-letters {
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 0.3em;
+  color: #0891b2;
+  margin-bottom: 1rem;
+  word-break: break-all;
+}
+
+.matching-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.matching-card {
+  aspect-ratio: 1;
+  perspective: 600px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.matching-card:disabled { cursor: default; }
+
+.matching-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.4s;
+  transform-style: preserve-3d;
+}
+
+.matching-card.flipped .matching-inner { transform: rotateY(180deg); }
+
+.matching-front, .matching-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  padding: 0.4rem;
+  font-size: 0.85rem;
+  word-break: break-word;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.matching-front {
+  background: linear-gradient(135deg, #0891b2, #06b6d4);
+  color: white;
+  font-size: 1.5rem;
+}
+
+.matching-back {
+  transform: rotateY(180deg);
+  background: #fff;
+  border: 2px solid #e2e8f0;
+  color: #1e293b;
+}
+
+.matching-word { font-weight: 700; color: #0891b2; font-size: 0.9rem; }
+.matching-meaning { color: #475569; font-size: 0.82rem; }
+
+.matching-card.matched .matching-back { border-color: #059669; background: #ecfdf5; }
+
+.game-quiz-timer {
+  background: #e0f2fe;
+  padding: 0.3rem 0.8rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  color: #0891b2;
+  font-size: 0.95rem;
+}
+
+.game-quiz-timer.danger { background: #fee2e2; color: #dc2626; animation: pulse 0.5s ease-in-out infinite alternate; }
+
+@keyframes pulse { from { opacity: 1; } to { opacity: 0.5; } }
+
+/* WORD SORT */
+.word-sort-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  min-height: 2.5rem;
+  align-items: center;
+}
+
+.word-sort-chip {
+  padding: 0.4rem 0.7rem;
+  border-radius: 1.5rem;
+  border: 1px solid #cbd5e1;
+  background: #f1f5f9;
+  color: #1e293b;
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.word-sort-chip:hover { background: #e0e7ff; border-color: #4f46e5; }
+.word-sort-chip:disabled { cursor: default; opacity: 0.5; }
+
+.word-sort-used { background: #4f46e5; color: #fff; border-color: #4f46e5; }
+.word-sort-used:hover { background: #4338ca; border-color: #4338ca; }
+
+.word-sort-divider {
+  border: none;
+  border-top: 2px dashed #e2e8f0;
+  margin: 0.5rem 0;
+}
+
+/* TOPIC GUESS */
+.game-guess-topics {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* DARK VARIANTS */
+.dark .word-sort-chip { background: var(--bg-card); border-color: var(--border); color: var(--text); }
+.dark .word-sort-chip:hover { background: #312e81; border-color: #818cf8; }
+.dark .word-sort-used { background: #4f46e5; color: #fff; border-color: #4f46e5; }
+.dark .word-sort-used:hover { background: #4338ca; }
+.dark .word-sort-divider { border-color: var(--border); }
+
 /* NAV */
 .nav-user {
   display: flex;
@@ -1628,7 +1829,7 @@ body.dark {
 .dark .activity-item,
 .dark .dict-result,
 .dark .quiz-card { background: var(--bg-card); color: var(--text); }
-.dark .topic-card { background: var(--bg-card); color: var(--text); }
+.dark .topic-card { background: var(--bg-card); color: var(--text); border-color: var(--border); }
 .dark .dict-input,
 .dark .auth-input,
 .dark .vocab-search-input { background: var(--bg-card); color: var(--text); border-color: var(--border); }
@@ -1687,6 +1888,19 @@ body.dark {
 .dark .irregular-example { color: var(--text-secondary); }
 .dark .irregular-example strong { color: var(--text); }
 .dark .page-desc { color: var(--text-secondary); }
+.dark .game-flashcard-face { background: linear-gradient(135deg, #1e1b4b, #1e293b); border-color: #334155; }
+.dark .game-flashcard-word { color: #a5b4fc; }
+.dark .game-flashcard-phonetic { color: #94a3b8; }
+.dark .game-flashcard-meaning { color: #e2e8f0; }
+.dark .game-flashcard-example { color: #94a3b8; }
+.dark .game-scramble-letters { color: #22d3ee; }
+.dark .matching-back { background: var(--bg-card); border-color: var(--border); color: var(--text); }
+.dark .matching-word { color: #22d3ee; }
+.dark .matching-meaning { color: var(--text-secondary); }
+.dark .matching-card.matched .matching-back { border-color: #059669; background: #064e3b; }
+.dark .game-quiz-timer { background: #1e293b; color: #22d3ee; }
+.dark .game-quiz-timer.danger { background: #7f1d1d; color: #fca5a5; }
+.dark .ex-question { color: var(--text); }
 
 /* === RESPONSIVE === */
 @media (max-width: 768px) {

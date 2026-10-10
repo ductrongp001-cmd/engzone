@@ -10,6 +10,12 @@ const levelColors: Record<string, string> = {
   advanced: "#7c3aed",
 };
 
+const lessonColors = [
+  "#4f46e5", "#059669", "#d97706", "#dc2626", "#0891b2",
+  "#7c3aed", "#db2777", "#2563eb", "#0d9488", "#ca8a04",
+  "#e11d48", "#65a30d", "#0284c7", "#9333ea", "#16a34a",
+];
+
 export default function Grammar() {
   const { user } = useAuth();
   const [lessons, setLessons] = useState<GrammarLesson[]>([]);
@@ -45,9 +51,10 @@ export default function Grammar() {
       {!selected ? (
         <div className="lessons-list">
           {lessons.map((l) => (
-            <button key={l.id} className="lesson-card" onClick={() => selectLesson(l)}>
+            <button key={l.id} className="lesson-card" onClick={() => selectLesson(l)}
+              style={{ borderLeft: `4px solid ${lessonColors[l.order_index % lessonColors.length]}` }}>
               <div className="lesson-header">
-                <h3>{l.title}</h3>
+                <h3 style={{ color: lessonColors[l.order_index % lessonColors.length] }}>{l.title}</h3>
                 <span className="level-badge" style={{ background: levelColors[l.level] }}>
                   {l.level === "beginner" ? "Cơ bản" : l.level === "intermediate" ? "Trung cấp" : "Nâng cao"}
                 </span>
@@ -59,10 +66,11 @@ export default function Grammar() {
       ) : (
         <div>
           <button className="back-btn" onClick={() => setSelected(null)}>← Quay lại</button>
-          <h2>{selected.title}</h2>
+          <h2 style={{ color: lessonColors[selected.order_index % lessonColors.length] }}>{selected.title}</h2>
           <span className="level-badge" style={{ background: levelColors[selected.level] }}>
             {selected.level === "beginner" ? "Cơ bản" : selected.level === "intermediate" ? "Trung cấp" : "Nâng cao"}
           </span>
+          <span className="vocab-topic-tag" style={{ background: lessonColors[selected.order_index % lessonColors.length] + "22", color: lessonColors[selected.order_index % lessonColors.length] }}>{selected.category}</span>
           <div className="lesson-content">
             {selected.content.split("\n").map((line, i) => (
               <p key={i}>{line || "\u00A0"}</p>
@@ -72,7 +80,7 @@ export default function Grammar() {
             <div className="examples-section">
               <h3>Ví dụ</h3>
               {selected.examples.map((ex, i) => (
-                  <div key={i} className="example-card">
+                  <div key={i} className="example-card" style={{ borderLeftColor: lessonColors[selected.order_index % lessonColors.length] }}>
                     <p className="example-sentence"><SpeakButton text={ex.sentence} />{ex.sentence}</p>
                     <p className="example-translation">{ex.translation}</p>
                     <p className="example-explanation">{ex.explanation}</p>

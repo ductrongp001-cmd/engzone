@@ -10,6 +10,18 @@ const levelColors: Record<string, string> = {
   advanced: "#7c3aed",
 };
 
+const topicColors = [
+  "#4f46e5", "#0891b2", "#059669", "#d97706", "#dc2626",
+  "#7c3aed", "#0284c7", "#16a34a", "#e11d48", "#9333ea",
+  "#0d9488", "#ca8a04", "#2563eb", "#65a30d", "#db2777",
+];
+
+const posColors: Record<string, string> = {
+  "n.": "#2563eb", "v.": "#059669", "adj.": "#d97706",
+  "adv.": "#7c3aed", "prep.": "#0891b2", "conj.": "#dc2626",
+  "pron.": "#db2777", "det.": "#65a30d", "excl.": "#0d9488",
+};
+
 const levelLabels: Record<string, string> = {
   beginner: "Cơ bản",
   intermediate: "Trung cấp",
@@ -95,7 +107,7 @@ export default function Vocabulary() {
                   <strong className="word-text">{w.word}</strong>
                   <SpeakButton text={w.word} />
                   <span className="phonetic">{w.phonetic}</span>
-                  <span className="pos">{w.part_of_speech}</span>
+                  <span className="pos" style={{ background: (posColors[w.part_of_speech] || "#e0e7ff") + "22", color: posColors[w.part_of_speech] || "#4f46e5" }}>{w.part_of_speech}</span>
                   <span className="vocab-topic-tag">{w.topic_name}</span>
                 </div>
                 <p className="word-meaning">{w.meaning}</p>
@@ -109,7 +121,8 @@ export default function Vocabulary() {
       {!selectedTopic && searchResults.length === 0 && (
         <div className="topics-grid">
           {topics.map((t) => (
-            <button key={t.id} className="topic-card" onClick={() => selectTopic(t)}>
+            <button key={t.id} className="topic-card" onClick={() => selectTopic(t)}
+              style={{ borderLeft: `4px solid ${topicColors[t.order_index % topicColors.length]}` }}>
               <span className="topic-icon">{t.icon}</span>
               <div>
                 <h3>{t.name}</h3>
@@ -136,7 +149,7 @@ export default function Vocabulary() {
                   <strong className="word-text">{w.word}</strong>
                   <SpeakButton text={w.word} />
                   <span className="phonetic">{w.phonetic}</span>
-                  <span className="pos">{w.part_of_speech}</span>
+                  <span className="pos" style={{ background: (posColors[w.part_of_speech] || "#e0e7ff") + "22", color: posColors[w.part_of_speech] || "#4f46e5" }}>{w.part_of_speech}</span>
                 </div>
                 <p className="word-meaning">{w.meaning}</p>
                 <p className="word-example"><SpeakButton text={w.example} /><em>{w.example}</em></p>

@@ -7,14 +7,12 @@ import Home from "./pages/Home";
 import Vocabulary from "./pages/Vocabulary";
 import Grammar from "./pages/Grammar";
 import Exercises from "./pages/Exercises";
+import Games from "./pages/Games";
 import IrregularVerbs from "./pages/IrregularVerbs";
 import StressRules from "./pages/StressRules";
-import StressExercise from "./pages/StressExercise";
 import Progress from "./pages/Progress";
 import Dictionary from "./pages/Dictionary";
 import AuthPage from "./pages/AuthPage";
-import Quiz from "./pages/Quiz";
-import Flashcard from "./pages/Flashcard";
 import Dashboard from "./pages/admin/Dashboard";
 import UsersPage from "./pages/admin/UsersPage";
 import TopicsPage from "./pages/admin/TopicsPage";
@@ -32,14 +30,12 @@ export default function App() {
             <Route path="/vocabulary" element={<Vocabulary />} />
             <Route path="/grammar" element={<Grammar />} />
             <Route path="/exercises" element={<Exercises />} />
+            <Route path="/games" element={<Games />} />
             <Route path="/irregular-verbs" element={<IrregularVerbs />} />
             <Route path="/stress-rules" element={<StressRules />} />
-            <Route path="/stress-exercise" element={<StressExercise />} />
             <Route path="/progress" element={<Progress />} />
             <Route path="/dictionary" element={<Dictionary />} />
             <Route path="/auth" element={<AuthPage />} />
-            <Route path="/quiz" element={<Quiz />} />
-            <Route path="/flashcard" element={<Flashcard />} />
             <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
               <Route index element={<Dashboard />} />
               <Route path="users" element={<UsersPage />} />
